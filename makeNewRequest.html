@@ -683,7 +683,8 @@ footer {
                             Please fill in all required fields correctly.
                         </div>
                         
-                        <div id="success-message" class="alert alert-success" style="display: none;">
+                        <div id="success-message" class="alert alert-
+                        success" style="display: none;">
                             Your swap proposal has been sent successfully!
                         </div>
                         
@@ -812,5 +813,51 @@ footer {
         </div>
     </footer>
     
+    <script>
+        // Save new swap request to shared localStorage key 'globalSwapRequests'
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('swap-form');
+            const successMessage = document.getElementById('success-message');
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Build request object
+                    const requester = localStorage.getItem('currentUserName') || 'Anonymous User';
+                    const req = {
+                        id: Date.now(),
+                        requester: requester,
+                        department: document.getElementById('yourDepartment').value || '',
+                        position: document.getElementById('yourPosition').value || '',
+                        location: document.getElementById('yourLocation').value || '',
+                        grade: document.getElementById('yourGrade').value || '',
+                        desiredLocation: document.getElementById('swapPartner').value || '',
+                        date: document.getElementById('preferredSwapDate').value || '',
+                        reason: document.getElementById('swapReason').value || '',
+                        submissionDate: new Date().toLocaleString(),
+                        status: 'pending'
+                    };
+
+                    // Save to global storage (shared within same origin/browser)
+                    try {
+                        const existing = JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
+                        existing.unshift(req);
+                        localStorage.setItem('globalSwapRequests', JSON.stringify(existing));
+
+                        if (successMessage) successMessage.style.display = 'block';
+
+                        // Redirect to swap listing so user sees their request
+                        setTimeout(function() {
+                            window.location.href = 'swap.html';
+                        }, 800);
+                    } catch (err) {
+                        alert('Failed to save request locally.');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 </html>

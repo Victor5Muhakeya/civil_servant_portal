@@ -140,111 +140,47 @@
             background-color: white;
         }
         
-        /* Potential Matches Grid */
-        .matches-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
+        /* Potential Matches: compact list/card styling */
         .match-card {
             background-color: white;
             border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.05);
             border: 1px solid #e9ecef;
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
+
         .match-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
             border-color: #3498db;
         }
-        
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #f8f9fa;
-        }
-        
-        .match-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        
-        .match-department {
-            font-size: 0.9rem;
-            color: #3498db;
-            background-color: #e8f4fc;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        
-        .match-details {
-            margin-bottom: 1.5rem;
-        }
-        
-        .match-detail {
-            display: flex;
-            margin-bottom: 0.8rem;
-        }
-        
-        .match-label {
-            font-weight: 600;
-            color: #2c3e50;
-            width: 120px;
-            flex-shrink: 0;
-        }
-        
-        .match-value {
-            color: #555;
-            flex: 1;
-        }
-        
+
         .match-actions {
             display: flex;
-            gap: 0.8rem;
+            gap: 0.6rem;
+            margin-top: 0.6rem;
         }
-        
+
         .action-btn {
             flex: 1;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 9px 12px;
+            border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             border: none;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             font-size: 0.9rem;
         }
-        
-        .action-btn.view {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .action-btn.view:hover {
-            background-color: #2980b9;
-        }
-        
-        .action-btn.propose {
-            background-color: #2ecc71;
-            color: white;
-        }
-        
-        .action-btn.propose:hover {
-            background-color: #27ae60;
-        }
+
+        .action-btn.view { background-color: #3498db; color: white; }
+        .action-btn.view:hover { background-color: #2980b9; }
+        .action-btn.propose { background-color: #2ecc71; color: white; }
+        .action-btn.propose:hover { background-color: #27ae60; }
         
         /* Swap Request Form */
         .swap-form {
@@ -606,9 +542,7 @@
                 flex-direction: column;
             }
             
-            .matches-grid {
-                grid-template-columns: 1fr;
-            }
+            /* matches-grid removed; list layout adapts naturally on small screens */
             
             .proposal-details {
                 grid-template-columns: 1fr;
@@ -668,6 +602,47 @@ footer {
     color: #95a5a6 !important;
     margin-top: 1rem !important;
 }
+
+        /* Floating Button at Bottom Right */
+        .floating-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .floating-button:hover {
+            background-color: #2980b9;
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.6);
+            transform: scale(1.1);
+        }
+        
+        .floating-button:active {
+            transform: scale(0.95);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-button {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -770,10 +745,11 @@ footer {
                     </div>
                     
                     <h3 style="margin-bottom: 1rem; color: #2c3e50;">Potential Matches</h3>
-                    
-                    <div class="matches-grid" id="matchesGrid">
-                        <!-- Match cards will be dynamically generated -->
-                    </div>
+
+                    <!-- Listing of potential swap requests (shared) -->
+                    <ul class="matches-list" id="matchesList" style="list-style: none; padding: 0; margin-top: 1rem;">
+                        <!-- Requests will be injected here -->
+                    </ul>
                     
                     <div class="empty-state" id="noMatchesMessage" style="display: none;">
                         <i class="fas fa-users-slash"></i>
@@ -782,209 +758,8 @@ footer {
                     </div>
                 </div>
             </div>
+           
             
-            <!-- Section 2: Submit Swap Request -->
-            <div class="swap-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-paper-plane"></i> Make Swap Request</h2>
-                </div>
-                <div class="section-content">
-                    <div class="swap-form">
-                        <div id="error-message" class="alert alert-error" style="display: none;">
-                            Please fill in all required fields correctly.
-                        </div>
-                        
-                        <div id="success-message" class="alert alert-success" style="display: none;">
-                            Your swap proposal has been sent successfully!
-                        </div>
-                        
-                        <form id="swap-form">
-                            <div class="info-box">
-                                <h3><i class="fas fa-info-circle"></i> Your Position Details</h3>
-                                <div class="form-row">
-                                    <div class="form-column">
-                                        <div class="form-group">
-                                            <label for="yourDepartment">Your Department <span class="required">*</span></label>
-                                            <select id="yourDepartment" class="form-control" required>
-                                                <option value="">Select Department</option>
-                                                <option value="education" selected>Education</option>
-                                                <option value="health">Health</option>
-                                                <option value="finance">Finance</option>
-                                                <option value="transport">Transport</option>
-                                                <option value="justice">Justice</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-column">
-                                        <div class="form-group">
-                                            <label for="yourPosition">Your Position <span class="required">*</span></label>
-                                            <input type="text" id="yourPosition" class="form-control" placeholder="Enter your position" value="Senior Education Officer" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-row">
-                                    <div class="form-column">
-                                        <div class="form-group">
-                                            <label for="yourLocation">Your Location <span class="required">*</span></label>
-                                            <input type="text" id="yourLocation" class="form-control" placeholder="Enter your location" value="Capital City" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-column">
-                                        <div class="form-group">
-                                            <label for="yourGrade">Your Grade Level <span class="required">*</span></label>
-                                            <select id="yourGrade" class="form-control" required>
-                                                <option value="">Select Grade Level</option>
-                                                <option value="6" selected>Level 6</option>
-                                                <option value="7">Level 7</option>
-                                                <option value="8">Level 8</option>
-                                                <option value="9">Level 9</option>
-                                                <option value="10">Level 10</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="info-box">
-                                <h3><i class="fas fa-user-friends"></i>Destination (Where you want to go?)</h3>
-                                <div class="form-group">
-                                    <!--<label for="swapPartner">Select Swap Partner <span class="required">*</span></label> -->
-
-                                    <select id="swapPartner" class="form-control" required>
-                                        <option value="">Select District</option>
-                                        <option value="john-doe">Zomba</option>
-                                        <option value="northern">Northern Region</option>
-                                        <option value="southern">Southern Region</option>
-                                        <option value="eastern">Eastern Region</option>
-                                        <option value="western">Western Region</option>
-                                        <option value="capital">Lilongwe City</option>
-                                        <option value="coastal">Blantyre City</option>
-                                        <option value="zomba">Zomba</option>
-                                        <option value="mzuzu">Mzuzu</option>
-                                        <option value="karonga">Karonga</option>
-                                        <option value="mulanje">Mulanje</option>
-                                        <option value="nsanje">Nsanje</option>
-                                        <option value="salima">Salima</option>
-                                        <option value="dedza">Dedza</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="preferredSwapDate">Preferred Swap Date <span class="required">*</span></label>
-                                    <input type="date" id="preferredSwapDate" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="swapReason">Reason for Swap <span class="required">*</span></label>
-                                <textarea id="swapReason" class="form-control" placeholder="Explain why you want to swap positions and what you hope to achieve..." required></textarea>
-                            </div>
-                            
-                            <!--<div class="form-group">
-                                <label for="additionalNotes">Additional Notes</label>
-                                <textarea id="additionalNotes" class="form-control" placeholder="Any additional information or conditions for the swap..."></textarea>
-                            </div>
-                        -->
-                            
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <input type="checkbox" id="swapAgreement" required>
-                                    <label for="swapAgreement">
-                                        I understand that this swap proposal is subject to approval from both departments and HR. 
-                                        I confirm that all information provided is accurate.
-                                        <span class="required">*</span>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="submit-btn" id="submitButton">
-                                <i class="fas fa-exchange-alt"></i>
-                                <span id="buttonText">Submit Swap Proposal</span>
-                                <span id="buttonSpinner" style="display: none;">
-                                    <i class="fas fa-spinner fa-spin"></i> Sending...
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Section 3: My Swap Requests & Proposals -->
-            
-            <div class="swap-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-tasks"></i> My Swap Requests & Proposals</h2>
-                </div>
-                <div class="section-content">
-                    <!-- My Swap Requests -->
-                    <div class="swap-requests">
-                        <!--
-                        <h3 style="margin-bottom: 1rem; color: #2c3e50;">My Active Swap Requests</h3>
-                        
-                        <table class="requests-table">
-                            <thead>
-                                <tr>
-                                    <th>Request ID</th>
-                                    <th>Swap Partner</th>
-                                    <th>Department</th>
-                                    <th>Location</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#SWAP-2023-012</td>
-                                    <td>John Mateyu</td>
-                                    <td>Health</td>
-                                    <td>Lilongwe City</td>
-                                    <td><span class="swap-status status-negotiating">Negotiating</span></td>
-                                    <td class="action-cell">
-                                        <button class="table-btn view">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <button class="table-btn message">
-                                            <i class="fas fa-comment"></i> Message
-                                        </button>
-                                        <button class="table-btn cancel">
-                                            <i class="fas fa-times"></i> Cancel
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#SWAP-2023-008</td>
-                                    <td>Sharon Muhakeya</td>
-                                    <td>Finance</td>
-                                    <td>Northern Region</td>
-                                    <td><span class="swap-status status-waiting">Waiting Response</span></td>
-                                    <td class="action-cell">
-                                        <button class="table-btn view">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <button class="table-btn cancel">
-                                            <i class="fas fa-times"></i> Cancel
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#SWAP-2023-005</td>
-                                    <td>Andrew Mzuzu</td>
-                                    <td>Transport</td>
-                                    <td>Southern Region</td>
-                                    <td><span class="swap-status status-pending">Pending Approval</span></td>
-                                    <td class="action-cell">
-                                        <button class="table-btn view">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                 -->
-                </div>
-            </div>
         </div>
     </main>
 
@@ -1004,88 +779,16 @@ footer {
         </div>
     </footer>
 
+    <!-- Floating Button to Navigate to Make New Request -->
+    <button class="floating-button" title="New Request" onclick="window.location.href='makeNewRequest.html';">
+        <i class="fas fa-plus"></i>
+    </button>
+
     <script src="script.js"></script>
     <script>
-        // Swap page specific JavaScript
+        // Swap page specific JavaScript (uses shared localStorage key: 'globalSwapRequests')
         document.addEventListener('DOMContentLoaded', function() {
-            // Demo data for potential matches
-            const potentialMatches = [
-                {
-                    id: 1,
-                    name: "Hassan Mwakax",
-                    department: "Health",
-                    position: "Senior Health Officer",
-                    location: "Coastal City",
-                    grade: "Level 6",
-                    experience: "8 years",
-                    availability: "Within 1-3 months",
-                    reason: "Looking to move to capital area for family reasons",
-                    matchScore: 95
-                },
-                {
-                    id: 2,
-                    name: "Alex Mwale",
-                    department: "Finance",
-                    position: "Finance Analyst",
-                    location: "Northern Region",
-                    grade: "Level 7",
-                    experience: "5 years",
-                    availability: "Immediate",
-                    reason: "Interested in education sector opportunities",
-                    matchScore: 87
-                },
-                {
-                    id: 3,
-                    name: "Levi Kasokoya",
-                    department: "Transport",
-                    position: "Transport Coordinator",
-                    location: "Southern Region",
-                    grade: "Level 6",
-                    experience: "10 years",
-                    availability: "Within 3-6 months",
-                    reason: "Seeking position in healthcare administration",
-                    matchScore: 78
-                },
-                {
-                    id: 4,
-                    name: "Victor Muhakeya",
-                    department: "Education",
-                    position: "Regional Education Officer",
-                    location: "Western Region",
-                    grade: "Level 6",
-                    experience: "7 years",
-                    availability: "Within 1-3 months",
-                    reason: "Want to relocate to capital city",
-                    matchScore: 92
-                },
-                {
-                    id: 5,
-                    name: "Shalon Maxwell",
-                    department: "Justice",
-                    position: "Legal Advisor",
-                    location: "Capital City",
-                    grade: "Level 8",
-                    experience: "12 years",
-                    availability: "Within 6+ months",
-                    reason: "Looking for coastal region position",
-                    matchScore: 65
-                },
-                {
-                    id: 6,
-                    name: "Raphael Mphoka",
-                    department: "Health",
-                    position: "Public Health Specialist",
-                    location: "Eastern Region",
-                    grade: "Level 7",
-                    experience: "6 years",
-                    availability: "Immediate",
-                    reason: "Family relocation to northern region",
-                    matchScore: 81
-                }
-            ];
-            
-            // DOM Elements
-            const matchesGrid = document.getElementById('matchesGrid');
+            const matchesList = document.getElementById('matchesList');
             const noMatchesMessage = document.getElementById('noMatchesMessage');
             const searchInput = document.getElementById('searchPartners');
             const searchButton = document.getElementById('searchButton');
@@ -1093,416 +796,189 @@ footer {
             const filterLocation = document.getElementById('filterLocation');
             const filterGrade = document.getElementById('filterGrade');
             const filterAvailability = document.getElementById('filterAvailability');
-            
-            // Form elements
-            const swapForm = document.getElementById('swap-form');
-            const submitButton = document.getElementById('submitButton');
-            const buttonText = document.getElementById('buttonText');
-            const buttonSpinner = document.getElementById('buttonSpinner');
-            const errorMessage = document.getElementById('error-message');
-            const successMessage = document.getElementById('success-message');
-            const preferredSwapDate = document.getElementById('preferredSwapDate');
-            
-            // Initialize
-            renderMatches(potentialMatches);
-            setupEventListeners();
-            
-            function renderMatches(matches) {
-                matchesGrid.innerHTML = '';
-                
-                if (matches.length === 0) {
+
+            function getSwapRequests() {
+                try {
+                    return JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function renderList(requests) {
+                matchesList.innerHTML = '';
+
+                if (!requests || requests.length === 0) {
                     noMatchesMessage.style.display = 'block';
                     return;
                 }
-                
+
                 noMatchesMessage.style.display = 'none';
-                
-                matches.forEach(match => {
-                    const matchCard = document.createElement('div');
-                    matchCard.className = 'match-card';
-                    
-                    // Calculate match color based on score
-                    let matchColor = '#e74c3c'; // Red for low score
-                    if (match.matchScore >= 80) matchColor = '#2ecc71'; // Green for high score
-                    else if (match.matchScore >= 70) matchColor = '#f39c12'; // Orange for medium score
-                    
-                    matchCard.innerHTML = `
-                        <div class="match-header">
-                            <div class="match-name">${match.name}</div>
-                            <div class="match-department">${match.department}</div>
+
+                requests.forEach(req => {
+                    const li = document.createElement('li');
+                    li.className = 'match-card';
+                    li.style.marginBottom = '12px';
+
+                    li.innerHTML = `
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <div style="font-weight:700;color:#2c3e50;">${req.requester || 'Anonymous'}</div>
+                                <div style="color:#3498db;font-weight:600;margin-top:4px;">${req.department || ''}</div>
+                            </div>
+                            <div style="text-align:right;color:#7f8c8d;font-size:0.9rem;">${req.submissionDate || ''}</div>
                         </div>
-                        <div class="match-details">
-                            <div class="match-detail">
-                                <div class="match-label">Position:</div>
-                                <div class="match-value">${match.position}</div>
-                            </div>
-                            <div class="match-detail">
-                                <div class="match-label">Location:</div>
-                                <div class="match-value">${match.location}</div>
-                            </div>
-                            <div class="match-detail">
-                                <div class="match-label">Grade Level:</div>
-                                <div class="match-value">${match.grade}</div>
-                            </div>
-                            <div class="match-detail">
-                                <div class="match-label">Experience:</div>
-                                <div class="match-value">${match.experience}</div>
-                            </div>
-                            <div class="match-detail">
-                                <div class="match-label">Availability:</div>
-                                <div class="match-value">${match.availability}</div>
-                            </div>
-                            <div class="match-detail">
-                                <div class="match-label">Reason:</div>
-                                <div class="match-value">${match.reason}</div>
-                            </div>
-                            <div class="match-detail">
-                                <div class="match-label">Match Score:</div>
-                                <div class="match-value">
-                                    <div style="display: flex; align-items: center; gap: 8px;">
-                                        <div style="width: 100px; height: 8px; background-color: #eee; border-radius: 4px; overflow: hidden;">
-                                            <div style="width: ${match.matchScore}%; height: 100%; background-color: ${matchColor};"></div>
-                                        </div>
-                                        <span style="font-weight: bold; color: ${matchColor};">${match.matchScore}%</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                            <div><strong>Position:</strong> ${req.position || ''}</div>
+                            <div><strong>Location:</strong> ${req.location || req.desiredLocation || ''}</div>
+                            <div><strong>Grade:</strong> ${req.grade || ''}</div>
+                            <div><strong>Preferred Date:</strong> ${req.date || ''}</div>
                         </div>
-                        <div class="match-actions">
-                            <button class="action-btn view" onclick="viewMatchDetails(${match.id})">
-                                <i class="fas fa-eye"></i> View Details
-                            </button>
-                            <button class="action-btn propose" onclick="proposeSwap(${match.id})">
-                                <i class="fas fa-exchange-alt"></i> Propose Swap
-                            </button>
+                        <div style="margin-top:8px;color:#555;">${(req.reason||'').slice(0,180)}${(req.reason && req.reason.length>180)?'...':''}</div>
+                        <div class="match-actions" style="margin-top:10px;display:flex;gap:8px;">
+                            <button class="action-btn view" onclick="viewMatchDetails('${req.id}')"><i class="fas fa-eye"></i> View</button>
+                            <button class="action-btn propose" onclick="proposeSwap('${req.id}')"><i class="fas fa-exchange-alt"></i> Propose</button>
                         </div>
                     `;
-                    
-                    matchesGrid.appendChild(matchCard);
+
+                    matchesList.appendChild(li);
                 });
             }
-            
-            function setupEventListeners() {
-                // Search functionality
-                if (searchButton) {
-                    searchButton.addEventListener('click', filterMatches);
-                }
-                
-                if (searchInput) {
-                    searchInput.addEventListener('keyup', function(event) {
-                        if (event.key === 'Enter') {
-                            filterMatches();
-                        }
-                    });
-                }
-                
-                // Filter change listeners
-                [filterDepartment, filterLocation, filterGrade, filterAvailability].forEach(filter => {
-                    if (filter) {
-                        filter.addEventListener('change', filterMatches);
-                    }
-                });
-                
-                // Form submission
-                if (swapForm) {
-                    swapForm.addEventListener('submit', function(event) {
-                        event.preventDefault();
-                        
-                        if (validateSwapForm()) {
-                            // Show loading state
-                            buttonText.style.display = 'none';
-                            buttonSpinner.style.display = 'inline';
-                            submitButton.disabled = true;
-                            
-                            // Hide any previous messages
-                            errorMessage.style.display = 'none';
-                            successMessage.style.display = 'none';
-                            
-                            // Simulate API call delay
-                            setTimeout(function() {
-                                // Successful submission
-                                successMessage.style.display = 'block';
-                                errorMessage.style.display = 'none';
-                                
-                                // Store swap request data (for demo purposes)
-                                const formData = {
-                                    partner: document.getElementById('swapPartner').value,
-                                    date: document.getElementById('preferredSwapDate').value,
-                                    reason: document.getElementById('swapReason').value,
-                                    submissionDate: new Date().toLocaleDateString(),
-                                    status: 'pending'
-                                };
-                                
-                                // Get existing requests or create new array
-                                const existingRequests = JSON.parse(localStorage.getItem('swapRequests') || '[]');
-                                existingRequests.push(formData);
-                                localStorage.setItem('swapRequests', JSON.stringify(existingRequests));
-                                
-                                // Reset form after 3 seconds
-                                setTimeout(function() {
-                                    document.getElementById('swapReason').value = '';
-                                    document.getElementById('additionalNotes').value = '';
-                                    document.getElementById('swapAgreement').checked = false;
-                                    
-                                    // Set date to 1 month from now
-                                    const nextMonth = new Date();
-                                    nextMonth.setMonth(nextMonth.getMonth() + 1);
-                                    preferredSwapDate.value = nextMonth.toISOString().split('T')[0];
-                                    
-                                    // Reset button state
-                                    buttonText.style.display = 'inline';
-                                    buttonSpinner.style.display = 'none';
-                                    submitButton.disabled = false;
-                                    
-                                    // Hide success message
-                                    successMessage.style.display = 'none';
-                                }, 3000);
-                            }, 1500); // Simulate network delay
-                        }
-                    });
-                }
-                
-                // Set min date for preferred swap date (tomorrow)
-                if (preferredSwapDate) {
-                    const tomorrow = new Date();
-                    tomorrow.setDate(tomorrow.getDate() + 1);
-                    preferredSwapDate.min = tomorrow.toISOString().split('T')[0];
-                    
-                    // Set default to 1 month from now
-                    const nextMonth = new Date();
-                    nextMonth.setMonth(nextMonth.getMonth() + 1);
-                    preferredSwapDate.value = nextMonth.toISOString().split('T')[0];
-                }
-            }
-            
+
             function filterMatches() {
-                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-                const departmentFilter = filterDepartment ? filterDepartment.value : '';
-                const locationFilter = filterLocation ? filterLocation.value : '';
-                const gradeFilter = filterGrade ? filterGrade.value : '';
-                const availabilityFilter = filterAvailability ? filterAvailability.value : '';
-                
-                const filteredMatches = potentialMatches.filter(match => {
-                    // Search term filter
-                    if (searchTerm) {
-                        const searchableText = `
-                            ${match.name} ${match.department} ${match.position} 
-                            ${match.location} ${match.reason}
-                        `.toLowerCase();
-                        
-                        if (!searchableText.includes(searchTerm)) {
-                            return false;
-                        }
+                const all = getSwapRequests();
+                const q = (searchInput && searchInput.value || '').toLowerCase();
+                const dept = (filterDepartment && filterDepartment.value) || '';
+                const loc = (filterLocation && filterLocation.value) || '';
+                const grade = (filterGrade && filterGrade.value) || '';
+                const availability = (filterAvailability && filterAvailability.value) || '';
+
+                const filtered = all.filter(r => {
+                    if (q) {
+                        const inText = (r.requester||'').toLowerCase().includes(q) || (r.position||'').toLowerCase().includes(q) || (r.department||'').toLowerCase().includes(q) || (r.location||'').toLowerCase().includes(q);
+                        if (!inText) return false;
                     }
-                    
-                    // Department filter
-                    if (departmentFilter && match.department.toLowerCase() !== departmentFilter) {
-                        return false;
+                    if (dept && r.department !== dept) return false;
+                    if (loc && r.location !== loc && r.desiredLocation !== loc) return false;
+                    if (grade) {
+                        const gnum = parseInt((r.grade||'').replace(/[^0-9]/g, '')) || 0;
+                        if (grade === '1-3' && (gnum < 1 || gnum > 3)) return false;
+                        if (grade === '4-6' && (gnum < 4 || gnum > 6)) return false;
+                        if (grade === '7-10' && (gnum < 7 || gnum > 10)) return false;
                     }
-                    
-                    // Location filter
-                    if (locationFilter) {
-                        const locationMap = {
-                            'capital': 'Capital City',
-                            'coastal': 'Coastal City',
-                            'northern': 'Northern Region',
-                            'southern': 'Southern Region',
-                            'eastern': 'Eastern Region',
-                            'western': 'Western Region'
-                        };
-                        
-                        if (locationMap[locationFilter] !== match.location) {
-                            return false;
-                        }
+                    if (availability && r.availability) {
+                        const map = { 'immediate':'Immediate','1-3':'Within 1-3 months','3-6':'Within 3-6 months','6+':'6+ months' };
+                        if (map[availability] !== r.availability) return false;
                     }
-                    
-                    // Grade filter
-                    if (gradeFilter) {
-                        const gradeNum = parseInt(match.grade.replace('Level ', ''));
-                        
-                        if (gradeFilter === '1-3' && (gradeNum < 1 || gradeNum > 3)) {
-                            return false;
-                        }
-                        if (gradeFilter === '4-6' && (gradeNum < 4 || gradeNum > 6)) {
-                            return false;
-                        }
-                        if (gradeFilter === '7-10' && (gradeNum < 7 || gradeNum > 10)) {
-                            return false;
-                        }
-                    }
-                    
-                    // Availability filter
-                    if (availabilityFilter) {
-                        const availabilityMap = {
-                            'immediate': 'Immediate',
-                            '1-3': 'Within 1-3 months',
-                            '3-6': 'Within 3-6 months',
-                            '6+': '6+ months'
-                        };
-                        
-                        if (availabilityMap[availabilityFilter] !== match.availability) {
-                            return false;
-                        }
-                    }
-                    
                     return true;
                 });
-                
-                renderMatches(filteredMatches);
+
+                renderList(filtered);
             }
-            
-            function validateSwapForm() {
-                let isValid = true;
-                const requiredFields = swapForm.querySelectorAll('[required]');
-                
-                // Hide error message
-                errorMessage.style.display = 'none';
-                
-                // Check required fields
-                requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.style.borderColor = '#e74c3c';
-                    } else {
-                        field.style.borderColor = '#ddd';
-                    }
-                });
-                
-                // Check preferred swap date is in the future
-                const swapDate = new Date(preferredSwapDate.value);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                
-                if (swapDate <= today) {
-                    isValid = false;
-                    preferredSwapDate.style.borderColor = '#e74c3c';
-                    errorMessage.textContent = 'Preferred swap date must be in the future.';
-                    errorMessage.style.display = 'block';
+
+            // Global storage listener so multiple tabs update automatically
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'globalSwapRequests') {
+                    filterMatches();
                 }
-                
-                if (!isValid) {
-                    errorMessage.style.display = 'block';
-                    if (!errorMessage.textContent) {
-                        errorMessage.textContent = 'Please fill in all required fields correctly.';
-                    }
-                }
-                
-                return isValid;
-            }
-            
-            // Make functions available globally for button clicks
-            window.viewMatchDetails = function(matchId) {
-                const match = potentialMatches.find(m => m.id === matchId);
-                if (match) {
-                    alert(`Viewing details for ${match.name}\n\nDepartment: ${match.department}\nPosition: ${match.position}\nLocation: ${match.location}\nGrade: ${match.grade}\nExperience: ${match.experience}\nAvailability: ${match.availability}\nReason: ${match.reason}\nMatch Score: ${match.matchScore}%`);
-                }
+            });
+
+            // Actions
+            window.viewMatchDetails = function(id) {
+                const all = getSwapRequests();
+                const req = all.find(r => String(r.id) === String(id));
+                if (!req) return alert('Request not found');
+                alert(`Request by: ${req.requester || 'Anonymous'}\nPosition: ${req.position}\nLocation: ${req.location || req.desiredLocation}\nGrade: ${req.grade}\nDate: ${req.date}\n\nReason:\n${req.reason}`);
             };
-            
-            window.proposeSwap = function(matchId) {
-                const match = potentialMatches.find(m => m.id === matchId);
-                if (match) {
-                    // Auto-fill the swap partner dropdown
-                    const swapPartnerSelect = document.getElementById('swapPartner');
-                    if (swapPartnerSelect) {
-                        // Create option if it doesn't exist
-                        let optionExists = false;
-                        for (let i = 0; i < swapPartnerSelect.options.length; i++) {
-                            if (swapPartnerSelect.options[i].value === match.name.toLowerCase().replace(' ', '-')) {
-                                optionExists = true;
-                                swapPartnerSelect.value = swapPartnerSelect.options[i].value;
-                                break;
-                            }
-                        }
-                        
-                        if (!optionExists) {
-                            const option = document.createElement('option');
-                            option.value = match.name.toLowerCase().replace(' ', '-');
-                            option.text = `${match.name} (${match.department} Dept, ${match.location})`;
-                            swapPartnerSelect.appendChild(option);
-                            swapPartnerSelect.value = option.value;
-                        }
-                    }
-                    
-                    // Scroll to the form section
-                    document.querySelector('.swap-section:nth-child(2)').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    
-                    // Show success message
-                    const tempAlert = document.createElement('div');
-                    tempAlert.className = 'alert alert-info';
-                    tempAlert.innerHTML = `<i class="fas fa-info-circle"></i> Ready to propose a swap with ${match.name}. Please complete the form below.`;
-                    tempAlert.style.marginTop = '1rem';
-                    
-                    const formContainer = document.querySelector('.swap-form');
-                    if (formContainer) {
-                        formContainer.insertBefore(tempAlert, formContainer.firstChild);
-                        
-                        // Remove the temporary alert after 5 seconds
-                        setTimeout(() => {
-                            tempAlert.remove();
-                        }, 5000);
-                    }
-                }
+
+            window.proposeSwap = function(id) {
+                // In a real app this would start a proposal/notification flow.
+                alert('Proposal sent (demo). In a real app this would notify the requester.');
             };
-            
-            // Demo: Set up table button actions
-            document.querySelectorAll('.table-btn.view').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const requestId = row.cells[0].textContent;
-                    const partner = row.cells[1].textContent;
-                    alert(`Viewing swap request ${requestId} with ${partner}\n\nIn a real application, this would open detailed view.`);
-                });
-            });
-            
-            document.querySelectorAll('.table-btn.message').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const partner = row.cells[1].textContent;
-                    alert(`Opening message interface with ${partner}\n\nIn a real application, this would open a chat interface.`);
-                });
-            });
-            
-            document.querySelectorAll('.table-btn.cancel').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const row = this.closest('tr');
-                    const requestId = row.cells[0].textContent;
-                    if (confirm(`Are you sure you want to cancel swap request ${requestId}?`)) {
-                        alert(`Swap request ${requestId} cancelled.\n\nIn a real application, this would cancel the request.`);
-                    }
-                });
-            });
-            
-            // Demo: Set up proposal button actions
-            document.querySelectorAll('.proposal-btn.accept').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const proposalCard = this.closest('.proposal-card');
-                    const proposer = proposalCard.querySelector('.proposal-from').textContent;
-                    if (confirm(`Accept swap proposal from ${proposer}?`)) {
-                        alert(`Proposal from ${proposer} accepted!\n\nIn a real application, this would begin the approval process.`);
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.proposal-btn.reject').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const proposalCard = this.closest('.proposal-card');
-                    const proposer = proposalCard.querySelector('.proposal-from').textContent;
-                    if (confirm(`Reject swap proposal from ${proposer}?`)) {
-                        alert(`Proposal from ${proposer} rejected.\n\nIn a real application, this would notify the other party.`);
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.proposal-btn.negotiate').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const proposalCard = this.closest('.proposal-card');
-                    const proposer = proposalCard.querySelector('.proposal-from').textContent;
-                    alert(`Opening negotiation with ${proposer}\n\nIn a real application, this would open a chat interface for negotiation.`);
-                });
-            });
+
+            // Wire up search and filters
+            if (searchButton) searchButton.addEventListener('click', filterMatches);
+            if (searchInput) searchInput.addEventListener('keyup', function(e){ if (e.key==='Enter') filterMatches(); });
+            [filterDepartment, filterLocation, filterGrade, filterAvailability].forEach(f => { if (f) f.addEventListener('change', filterMatches); });
+
+            // Initial render
+            filterMatches();
         });
+   
+            // Replaced old handlers with unified form handling and safe helpers
+            document.addEventListener('DOMContentLoaded', function() {
+                const swapForm = document.getElementById('swap-form');
+                const errorMessage = document.getElementById('error-message');
+                const successMessage = document.getElementById('success-message');
+                const preferredSwapDate = document.getElementById('preferredSwapDate');
+
+                function validateForm(form) {
+                    const required = form.querySelectorAll('[required]');
+                    let ok = true;
+                    required.forEach(f => {
+                        if (!f.value || !String(f.value).trim()) {
+                            f.style.borderColor = '#e74c3c';
+                            ok = false;
+                        } else {
+                            f.style.borderColor = '#ddd';
+                        }
+                    });
+                    if (preferredSwapDate && preferredSwapDate.value) {
+                        const d = new Date(preferredSwapDate.value);
+                        const today = new Date(); today.setHours(0,0,0,0);
+                        if (d <= today) ok = false;
+                    }
+                    return ok;
+                }
+
+                if (swapForm) {
+                    swapForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        if (!validateForm(swapForm)) {
+                            if (errorMessage) { errorMessage.textContent = 'Please fix the highlighted fields.'; errorMessage.style.display = 'block'; }
+                            return;
+                        }
+
+                        const req = {
+                            id: Date.now(),
+                            requester: localStorage.getItem('currentUserName') || 'Anonymous User',
+                            department: document.getElementById('yourDepartment') ? document.getElementById('yourDepartment').value : '',
+                            position: document.getElementById('yourPosition') ? document.getElementById('yourPosition').value : '',
+                            location: document.getElementById('yourLocation') ? document.getElementById('yourLocation').value : '',
+                            grade: document.getElementById('yourGrade') ? document.getElementById('yourGrade').value : '',
+                            desiredLocation: document.getElementById('swapPartner') ? document.getElementById('swapPartner').value : '',
+                            date: document.getElementById('preferredSwapDate') ? document.getElementById('preferredSwapDate').value : '',
+                            reason: document.getElementById('swapReason') ? document.getElementById('swapReason').value : '',
+                            submissionDate: new Date().toLocaleString(),
+                            status: 'pending'
+                        };
+
+                        try {
+                            const existing = JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
+                            existing.unshift(req);
+                            localStorage.setItem('globalSwapRequests', JSON.stringify(existing));
+                            if (successMessage) { successMessage.style.display = 'block'; }
+                            setTimeout(() => { if (successMessage) successMessage.style.display = 'none'; }, 2500);
+                            // Update listing immediately
+                            window.dispatchEvent(new StorageEvent('storage', { key: 'globalSwapRequests', newValue: JSON.stringify(existing) }));
+                        } catch (err) {
+                            alert('Failed to save request locally.');
+                        }
+                    });
+                }
+
+                // Safe global helpers to view/propose using current storage
+                window.viewMatchDetails = function(id) {
+                    const all = JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
+                    const req = all.find(r => String(r.id) === String(id));
+                    if (!req) return alert('Request not found');
+                    alert(`Request by: ${req.requester}\nPosition: ${req.position}\nLocation: ${req.location || req.desiredLocation}\nGrade: ${req.grade}\nDate: ${req.date}\n\nReason:\n${req.reason}`);
+                };
+
+                window.proposeSwap = function(id) {
+                    alert('Proposal sent (demo). In a real app this would notify the requester.');
+                };
+            });
     </script>
 </body>
 </html>
