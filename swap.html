@@ -655,14 +655,8 @@ footer {
             <ul class="nav-menu">
                 <li><a href="homescreen.html">Home</a></li>
                 <li><a href="swap.html" class="active">Swap</a></li>
-
-                <!--
-                <li><a href="login.html">Login</a></li>
-                <li><a href="signup.html">Sign Up</a></li>
-                <li><a href="relocation.html">Relocation</a></li>
-                <li><a href="resignation.html">Resignation</a></li>
-            -->
             </ul>
+
             <div class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -708,16 +702,18 @@ footer {
                             <label for="filterLocation">Location</label>
                             <select id="filterLocation" class="filter-select">
                                 <option value="">All Locations</option>
-                                <option value="northern">Northern Region</option>
-                                <option value="southern">Southern Region</option>
-                                <option value="eastern">Eastern Region</option>
-                                <option value="western">Western Region</option>
-                                <option value="capital">Lilongwe City</option>
-                                <option value="coastal">Blantyre City</option>
-                                <option value="coastal">Zomba</option>
-                                <option value="coastal">Mzuzu</option>
-                                <option value="coastal">Karonga</option>
-                                <option value="coastal">Mulanje</option>
+                                <option value="karonga">Karonga</option>
+                                <option value="rumphi">Rumphi</option>
+                                <option value="salima">Salima/option>
+                                <option value="mphalombe">Mphalombe</option>
+                                <option value="lilongwe city">Lilongwe City</option>
+                                <option value="lilongwe rural">Lilongwe rural</option>
+                                <option value="blantyre city">Blantyre City</option>
+                                <option value="blantyre rural">Blantyre rural</option>
+                                <option value="zomba">Zomba</option>
+                                <option value="mzuzu">Mzuzu</option>
+                                <option value="chiradzulo">Chiradzulo</option>
+                                <option value="mulanje">Mulanje</option>
                                 
                             </select>
                         </div>
@@ -757,9 +753,7 @@ footer {
                         <p>Try adjusting your search filters or check back later.</p>
                     </div>
                 </div>
-            </div>
-           
-            
+            </div>   
         </div>
     </main>
 
@@ -804,17 +798,14 @@ footer {
                     return [];
                 }
             }
-
             function renderList(requests) {
                 matchesList.innerHTML = '';
-
                 if (!requests || requests.length === 0) {
                     noMatchesMessage.style.display = 'block';
                     return;
                 }
-
                 noMatchesMessage.style.display = 'none';
-
+                
                 requests.forEach(req => {
                     const li = document.createElement('li');
                     li.className = 'match-card';
