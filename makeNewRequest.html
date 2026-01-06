@@ -45,7 +45,7 @@
         }
         
         .swap-section {
-            background-color: white;
+            background-color: #f8f9fa;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -834,7 +834,7 @@ footer {
     </footer>
     
     <script>
-        // Save new swap request to shared localStorage key 'globalSwapRequests'
+        // Save new swap request to localStorage for homescreen display
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('swap-form');
             const successMessage = document.getElementById('success-message');
@@ -853,23 +853,24 @@ footer {
                         location: document.getElementById('yourLocation').value || '',
                         grade: document.getElementById('yourGrade').value || '',
                         desiredLocation: document.getElementById('swapPartner').value || '',
+                        partner: document.getElementById('swapPartner').value || '',
                         date: document.getElementById('preferredSwapDate').value || '',
                         reason: document.getElementById('swapReason').value || '',
                         submissionDate: new Date().toLocaleString(),
                         status: 'pending'
                     };
 
-                    // Save to global storage (shared within same origin/browser)
+                    // Save to localStorage under 'swapRequests' for homescreen
                     try {
-                        const existing = JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
+                        const existing = JSON.parse(localStorage.getItem('swapRequests') || '[]');
                         existing.unshift(req);
-                        localStorage.setItem('globalSwapRequests', JSON.stringify(existing));
+                        localStorage.setItem('swapRequests', JSON.stringify(existing));
 
                         if (successMessage) successMessage.style.display = 'block';
 
-                        // Redirect to swap listing so user sees their request
+                        // Redirect to homescreen to show recent applications
                         setTimeout(function() {
-                            window.location.href = 'swap.html';
+                            window.location.href = 'homescreen.html';
                         }, 800);
                     } catch (err) {
                         alert('Failed to save request locally.');

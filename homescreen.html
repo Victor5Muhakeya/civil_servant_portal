@@ -358,19 +358,8 @@ footer {
             </div>
             <ul class="nav-menu">
                 <li><a href="homescreen.html" class="active">Home</a></li>
-
                 <li><a href="profile.html">Profile</a></li>
-                
-                 <!--
-                <li><a href="relocation.html">Relocation</a></li>
-                <li><a href="swap.html">Swap</a></li>
-                <li><a href="resignation.html">Resignation</a></li>
-                -->
-                <!--
-                <li><a hef="profile.html">Profile</a>
-                -->
                 <li><a href="index.html">Logout</a></li>
-                
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -525,17 +514,27 @@ footer {
                 const welcomeMessage = document.getElementById('welcomeMessage');
                 const userDetails = document.getElementById('userDetails');
                 
-                const firstName = userData.firstName || 'Victor';
-                const lastName = userData.lastName || 'Muhakeya';
-                const position = userData.position || 'Government Employee';
-                const employeeId = userData.employeeId || 'CS-2025-001';
+                const firstName = userData.firstName || '';
+                const lastName = userData.lastName || '';
+                const position = userData.position || '';
+                const employeeId = userData.employeeId || '';
                 
                 if (welcomeMessage) {
-                    welcomeMessage.textContent = `Welcome, ${firstName} ${lastName}!`;
+                    if (firstName && lastName) {
+                        welcomeMessage.textContent = `Welcome, ${firstName} ${lastName}!`;
+                    } else if (userEmail) {
+                        welcomeMessage.textContent = `Welcome!`;
+                    }
                 }
                 
                 if (userDetails) {
-                    userDetails.textContent = `${position} | Employee ID: ${employeeId}`;
+                    if (position && employeeId) {
+                        userDetails.textContent = `${position} | Employee ID: ${employeeId}`;
+                    } else if (userEmail) {
+                        userDetails.textContent = `Email: ${userEmail}`;
+                    } else {
+                        userDetails.textContent = `Access your services and track your applications`;
+                    }
                 }
             }
             
@@ -567,12 +566,15 @@ footer {
                 swapRequests.forEach(request => {
                     allApplications.push({
                         type: 'swap',
-                        id: 'SWAP-' + Math.floor(Math.random() * 1000),
+                        id: 'SWAP-' + (request.id || Math.floor(Math.random() * 1000)),
                         date: request.submissionDate || new Date().toLocaleDateString(),
-                        status: 'negotiating',
+                        status: request.status || 'pending',
                         details: {
-                            partner: request.partner || 'Not specified',
-                            swapDate: request.date || 'Not specified'
+                            partner: request.desiredLocation || request.partner || 'Not specified',
+                            department: request.department || 'Not specified',
+                            position: request.position || 'Not specified',
+                            swapDate: request.date || 'Not specified',
+                            reason: request.reason || ''
                         }
                     });
                 });
@@ -590,33 +592,6 @@ footer {
                         }
                     });
                 });
-                
-                // Add demo applications if no real ones exist
-                if (allApplications.length === 0) {
-                    allApplications.push(
-                        {
-                            type: 'relocation',
-                            id: 'REL-2023-015',
-                            date: 'Oct 15, 2023',
-                            status: 'processing',
-                            details: {
-                                fromDepartment: 'Education',
-                                toDepartment: 'Health',
-                                toLocation: 'Coastal City'
-                            }
-                        },
-                        {
-                            type: 'swap',
-                            id: 'SWAP-2023-012',
-                            date: 'Oct 5, 2023',
-                            status: 'negotiating',
-                            details: {
-                                partner: 'John Doe',
-                                swapDate: 'Jan 15, 2024'
-                            }
-                        }
-                    );
-                }
                 
                 // Sort applications by date (newest first)
                 allApplications.sort((a, b) => {
@@ -642,7 +617,7 @@ footer {
                     app.status === 'approved'
                 ).length;
                 
-                // Calculate completion rate (simple demo logic)
+                // Calculate completion rate based on approved applications
                 let completionRate = 0;
                 if (totalApplications > 0) {
                     const completedApps = applications.filter(app => 
@@ -692,6 +667,9 @@ footer {
                     } else if (app.status === 'negotiating') {
                         statusText = 'Negotiating';
                         statusClass = 'status-processing';
+                    } else if (app.status === 'pending') {
+                        statusText = 'Pending';
+                        statusClass = 'status-pending';
                     }
                     
                     // Format type text
@@ -710,7 +688,9 @@ footer {
                         `;
                     } else if (app.type === 'swap') {
                         detailsHTML = `
-                            <p><strong>Partner:</strong> ${app.details.partner}</p>
+                            <p><strong>Your Department:</strong> ${app.details.department}</p>
+                            <p><strong>Your Position:</strong> ${app.details.position}</p>
+                            <p><strong>Desired Location:</strong> ${app.details.partner}</p>
                             <p><strong>Swap Date:</strong> ${app.details.swapDate}</p>
                         `;
                     } else if (app.type === 'resignation') {
