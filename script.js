@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     validateForm('relocation-form');
     validateForm('swap-form');
     validateForm('resignation-form');
+    validateForm('makeNewReqest-form');
     
     // Display current year in footer
     const yearElement = document.querySelector('.current-year');
