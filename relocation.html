@@ -623,7 +623,6 @@ footer {
             </div>
             <ul class="nav-menu">
                 <li><a href="homescreen.html">Home</a></li>
-
                 <li><a href="relocation.html" class="active">Relocation</a></li>
                 
             </ul>
@@ -645,8 +644,6 @@ footer {
             <!-- Tabs Navigation -->
             <div class="relocation-tabs">
                 <div class="tab active" data-tab="new-request">New Request</div>
-                <div class="tab" data-tab="track-status">Track Status</div>
-                <div class="tab" data-tab="history">Request History</div>
             </div>
             
             <!-- Tab 1: New Relocation Request -->
@@ -850,121 +847,7 @@ footer {
                 </div>
             </div>
             
-            <!-- Tab 2: Track Status -->
-            <div class="tab-content" id="track-status">
-                <div style="padding: 2.5rem;">
-                    <h2 style="margin-bottom: 1.5rem; color: #2c3e50;">Track Your Request Status</h2>
-                    
-                    <!-- Search Request Form -->
-                    <div class="reason-box" style="margin-bottom: 2rem;">
-                        <h3><i class="fas fa-search"></i> Find Your Request</h3>
-                        <div class="form-row">
-                            <div class="form-column">
-                                <div class="form-group">
-                                    <label for="searchRequestId">Request ID</label>
-                                    <input type="text" id="searchRequestId" class="form-control" placeholder="Enter your request ID (e.g., REL-2023-001)">
-                                </div>
-                            </div>
-                            <div class="form-column">
-                                <div class="form-group">
-                                    <label for="searchEmail">Email Address</label>
-                                    <input type="email" id="searchEmail" class="form-control" placeholder="Enter your registered email">
-                                </div>
-                            </div>
-                        </div>
-                        <button class="action-btn download" id="searchButton" style="margin-top: 1rem;">
-                            <i class="fas fa-search"></i> Search Request
-                        </button>
-                    </div>
-                    
-                    <!-- Demo Request Status -->
-                    <div id="statusResult" style="display: block;">
-                        <div class="status-tracker">
-                            <h3>Request Status: <span class="status-badge status-processing">Processing</span></h3>
-                            <p style="text-align: center; margin-bottom: 1.5rem; color: #555;">Request ID: <strong>#REL-2023-015</strong> | Submitted: October 15, 2023</p>
-                            
-                            <div class="status-steps">
-                                <div class="status-step completed">
-                                    <div class="status-icon">
-                                        <i class="fas fa-file-upload"></i>
-                                    </div>
-                                    <div class="status-label">Submitted</div>
-                                </div>
-                                <div class="status-step completed">
-                                    <div class="status-icon">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
-                                    <div class="status-label">Under Review</div>
-                                </div>
-                                <div class="status-step active">
-                                    <div class="status-icon">
-                                        <i class="fas fa-clipboard-check"></i>
-                                    </div>
-                                    <div class="status-label">Department Approval</div>
-                                </div>
-                                <div class="status-step">
-                                    <div class="status-icon">
-                                        <i class="fas fa-user-tie"></i>
-                                    </div>
-                                    <div class="status-label">HR Approval</div>
-                                </div>
-                                <div class="status-step">
-                                    <div class="status-icon">
-                                        <i class="fas fa-check-double"></i>
-                                    </div>
-                                    <div class="status-label">Completed</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="request-details">
-                            <h3>Request Details</h3>
-                            <div class="detail-row">
-                                <div class="detail-label">Current Department:</div>
-                                <div class="detail-value">Education</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Current Location:</div>
-                                <div class="detail-value">Central Office, Capital City</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Requested Department:</div>
-                                <div class="detail-value">Health</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Requested Location:</div>
-                                <div class="detail-value">Regional Hospital, Coastal City</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Reason for Relocation:</div>
-                                <div class="detail-value">Health reasons (supporting document provided)</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Preferred Start Date:</div>
-                                <div class="detail-value">January 15, 2024</div>
-                            </div>
-                            <div class="detail-row">
-                                <div class="detail-label">Estimated Completion:</div>
-                                <div class="detail-value">December 10, 2023</div>
-                            </div>
-                            
-                            <div class="action-buttons">
-                                <button class="action-btn download">
-                                    <i class="fas fa-download"></i> Download Request Copy
-                                </button>
-                                <button class="action-btn edit">
-                                    <i class="fas fa-edit"></i> Update Request
-                                </button>
-                                <button class="action-btn cancel">
-                                    <i class="fas fa-times"></i> Cancel Request
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tab 3: Request History -->
+            <!-- Tab 2: Request History -->
             <div class="tab-content" id="history">
                 <div style="padding: 2.5rem;">
                     <h2 style="margin-bottom: 1.5rem; color: #2c3e50;">Relocation Request History</h2>
@@ -1012,91 +895,7 @@ footer {
                         </button>
                     </div>
                     
-                    <!-- History Table -->
-                    <div class="request-details">
-                        <h3>Your Relocation Requests</h3>
-                        
-                        <table class="history-table">
-                            <thead>
-                                <tr>
-                                    <th>Request ID</th>
-                                    <th>Date Submitted</th>
-                                    <th>From Department</th>
-                                    <th>To Department</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#REL-2023-015</td>
-                                    <td>Oct 15, 2023</td>
-                                    <td>Education</td>
-                                    <td>Health</td>
-                                    <td><span class="status-badge status-processing">Processing</span></td>
-                                    <td>
-                                        <button class="action-btn download" style="padding: 5px 10px; font-size: 0.85rem;">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#REL-2023-008</td>
-                                    <td>Jul 22, 2023</td>
-                                    <td>Education</td>
-                                    <td>Finance</td>
-                                    <td><span class="status-badge status-approved">Approved</span></td>
-                                    <td>
-                                        <button class="action-btn download" style="padding: 5px 10px; font-size: 0.85rem;">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#REL-2022-112</td>
-                                    <td>Dec 5, 2022</td>
-                                    <td>Education</td>
-                                    <td>Transport</td>
-                                    <td><span class="status-badge status-rejected">Rejected</span></td>
-                                    <td>
-                                        <button class="action-btn download" style="padding: 5px 10px; font-size: 0.85rem;">
-                                            <i class="fas fa-eye"></i> View
-                                        </td>
-                                </tr>
-                                <tr>
-                                    <td>#REL-2022-045</td>
-                                    <td>May 18, 2022</td>
-                                    <td>Education</td>
-                                    <td>Justice</td>
-                                    <td><span class="status-badge status-approved">Approved</span></td>
-                                    <td>
-                                        <button class="action-btn download" style="padding: 5px 10px; font-size: 0.85rem;">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        <!-- Pagination (simplified) -->
-                        <div style="display: flex; justify-content: center; margin-top: 2rem; gap: 10px;">
-                            <button class="action-btn" style="background-color: #f8f9fa; color: #333; padding: 8px 15px;">
-                                <i class="fas fa-chevron-left"></i> Previous
-                            </button>
-                            <button class="action-btn" style="background-color: #3498db; color: white; padding: 8px 15px;">
-                                1
-                            </button>
-                            <button class="action-btn" style="background-color: #f8f9fa; color: #333; padding: 8px 15px;">
-                                2
-                            </button>
-                            <button class="action-btn" style="background-color: #f8f9fa; color: #333; padding: 8px 15px;">
-                                3
-                            </button>
-                            <button class="action-btn" style="background-color: #f8f9fa; color: #333; padding: 8px 15px;">
-                                Next <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -1310,40 +1109,26 @@ footer {
                             // Store request data in localStorage (for demo purposes)
                             const formData = {
                                 requestId: requestId,
+                                id: requestId,
                                 currentDepartment: document.getElementById('currentDepartment').value,
-                                requestedDepartment: document.getElementById('requestedDepartment').value,
+                                currentPosition: document.getElementById('currentPosition').value,
+                                currentLocation: document.getElementById('currentLocation').value,
                                 requestedLocation: document.getElementById('requestedLocation').value,
+                                preferredStartDate: document.getElementById('preferredStartDate').value,
                                 submissionDate: new Date().toLocaleDateString(),
-                                status: 'pending'
+                                status: 'pending',
+                                type: 'relocation'
                             };
                             
                             // Get existing requests or create new array
                             const existingRequests = JSON.parse(localStorage.getItem('relocationRequests') || '[]');
-                            existingRequests.push(formData);
+                            existingRequests.unshift(formData);
                             localStorage.setItem('relocationRequests', JSON.stringify(existingRequests));
                             
-                            // Reset form after 5 seconds
+                            // Redirect to homescreen to show recent applications after 4 seconds
                             setTimeout(function() {
-                                relocationForm.reset();
-                                uploadedFiles = [];
-                                previewContainer.classList.remove('show');
-                                previewContainer.innerHTML = '';
-                                
-                                // Reset button state
-                                buttonText.style.display = 'inline';
-                                buttonSpinner.style.display = 'none';
-                                submitButton.disabled = false;
-                                
-                                // Hide success message
-                                successMessage.style.display = 'none';
-                                
-                                // Switch to track status tab
-                                tabs.forEach(t => t.classList.remove('active'));
-                                tabContents.forEach(c => c.classList.remove('active'));
-                                
-                                document.querySelector('.tab[data-tab="track-status"]').classList.add('active');
-                                document.getElementById('track-status').classList.add('active');
-                            }, 5000);
+                                window.location.href = 'homescreen.html';
+                            }, 4000);
                         }, 2000); // Simulate network delay
                     }
                 });
@@ -1412,22 +1197,6 @@ footer {
                 preferredStartDate.min = tomorrow.toISOString().split('T')[0];
             }
             
-            // Search functionality for track status
-            const searchButton = document.getElementById('searchButton');
-            if (searchButton) {
-                searchButton.addEventListener('click', function() {
-                    const requestId = document.getElementById('searchRequestId').value;
-                    const email = document.getElementById('searchEmail').value;
-                    
-                    if (!requestId && !email) {
-                        alert('Please enter either a Request ID or Email address to search.');
-                        return;
-                    }
-                    
-                    // In a real app, this would be an API call
-                    alert(`Searching for request: ${requestId || email}\n\nIn a real application, this would display the request status.`);
-                });
-            }
             
             // Filter functionality for history
             const filterButton = document.getElementById('filterButton');

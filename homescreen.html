@@ -271,6 +271,17 @@
             color: #7f8c8d;
             margin-bottom: 0.5rem;
         }
+
+        .app-cancel {
+            cursor: pointer;
+            color: #c0392b;
+            font-weight: 700;
+            margin-left: 10px;
+            padding: 2px 8px;
+            border-radius: 50%;
+            background: rgba(192,57,43,0.06);
+            line-height: 1;
+        }
         
         .empty-applications {
             text-align: center;
@@ -540,9 +551,19 @@ footer {
             
             function loadApplications() {
                 // Get applications from localStorage
-                const relocationRequests = JSON.parse(localStorage.getItem('relocationRequests') || '[]');
-                const swapRequests = JSON.parse(localStorage.getItem('swapRequests') || '[]');
-                const resignationRequests = JSON.parse(localStorage.getItem('resignationRequests') || '[]');
+                let relocationRequests = JSON.parse(localStorage.getItem('relocationRequests') || '[]');
+                let swapRequests = JSON.parse(localStorage.getItem('swapRequests') || '[]');
+                let resignationRequests = JSON.parse(localStorage.getItem('resignationRequests') || '[]');
+                
+                // Clean up any demo/hardcoded entries - keep only valid submissions with required fields
+                swapRequests = swapRequests.filter(r => r && r.id && (r.department || r.position) && r.submissionDate);
+                relocationRequests = relocationRequests.filter(r => r && (r.requestId || r.id) && (r.currentDepartment || r.requestedDepartment) && r.submissionDate);
+                resignationRequests = resignationRequests.filter(r => r && (r.requestId || r.id) && (r.lastWorkingDay || r.submissionDate));
+                
+                // Re-save the cleaned data to localStorage
+                localStorage.setItem('swapRequests', JSON.stringify(swapRequests));
+                localStorage.setItem('relocationRequests', JSON.stringify(relocationRequests));
+                localStorage.setItem('resignationRequests', JSON.stringify(resignationRequests));
                 
                 // Combine all applications
                 const allApplications = [];
@@ -552,6 +573,7 @@ footer {
                     allApplications.push({
                         type: 'relocation',
                         id: request.requestId || 'REL-' + Math.floor(Math.random() * 1000),
+                        rawId: request.requestId || request.id || null,
                         date: request.submissionDate || new Date().toLocaleDateString(),
                         status: request.status || 'processing',
                         details: {
@@ -567,6 +589,7 @@ footer {
                     allApplications.push({
                         type: 'swap',
                         id: 'SWAP-' + (request.id || Math.floor(Math.random() * 1000)),
+                        rawId: request.id || null,
                         date: request.submissionDate || new Date().toLocaleDateString(),
                         status: request.status || 'pending',
                         details: {
@@ -584,6 +607,7 @@ footer {
                     allApplications.push({
                         type: 'resignation',
                         id: request.requestId || 'RES-' + Math.floor(Math.random() * 1000),
+                        rawId: request.requestId || request.id || null,
                         date: request.submissionDate || new Date().toLocaleDateString(),
                         status: request.status || 'processing',
                         details: {
@@ -653,6 +677,13 @@ footer {
                 recentApplications.forEach(app => {
                     const appItem = document.createElement('div');
                     appItem.className = `application-item ${app.type}`;
+                    // expose raw id/type for actions
+                    // attach both display id and raw id (if any) for cancellation matching
+                    appItem.dataset.displayId = app.id;
+                    appItem.dataset.apptype = app.type;
+                    if (app.rawId !== undefined && app.rawId !== null) {
+                        appItem.dataset.rawId = app.rawId;
+                    }
                     
                     // Format status text
                     let statusText = app.status;
@@ -703,7 +734,9 @@ footer {
                     appItem.innerHTML = `
                         <div class="app-header">
                             <div class="app-type">${typeText}</div>
-                            <div class="app-status ${statusClass}">${statusText}</div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div class="app-status ${statusClass}">${statusText}</div>
+                            </div>
                         </div>
                         <div class="app-details">
                             <p><strong>ID:</strong> ${app.id}</p>
@@ -712,7 +745,23 @@ footer {
                         </div>
                     `;
                     
-                    // Add click event to navigate to respective page
+                    // Add cancel (x) button to header
+                    const header = appItem.querySelector('.app-header');
+                    if (header) {
+                        const cancelBtn = document.createElement('span');
+                        cancelBtn.className = 'app-cancel';
+                        cancelBtn.title = 'Cancel application';
+                        cancelBtn.textContent = '×';
+                        cancelBtn.addEventListener('click', function(ev) {
+                            ev.stopPropagation();
+                            const ok = confirm('Are you sure you want to cancel this application?');
+                            if (!ok) return;
+                            cancelProposal(app.type, app.rawId, app.id);
+                        });
+                        header.appendChild(cancelBtn);
+                    }
+
+                    // Add click event to navigate to respective page (skip when clicking cancel)
                     appItem.addEventListener('click', function() {
                         if (app.type === 'relocation') {
                             window.location.href = 'relocation.html';
@@ -722,9 +771,41 @@ footer {
                             window.location.href = 'resignation.html';
                         }
                     });
-                    
+
                     applicationsList.appendChild(appItem);
                 });
+            }
+
+            function cancelProposal(type, rawId, displayId) {
+                if (type === 'swap') {
+                    const swapRequests = JSON.parse(localStorage.getItem('swapRequests') || '[]');
+                    const remaining = swapRequests.filter(r => {
+                        // match by numeric id or by display id 'SWAP-<id>' when rawId missing
+                        if (rawId) return String(r.id) !== String(rawId);
+                        if (displayId && displayId.startsWith('SWAP-')) return String('SWAP-' + (r.id || '')) !== String(displayId);
+                        return true;
+                    });
+                    localStorage.setItem('swapRequests', JSON.stringify(remaining));
+                } else if (type === 'relocation') {
+                    const relocationRequests = JSON.parse(localStorage.getItem('relocationRequests') || '[]');
+                    const remaining = relocationRequests.filter(r => {
+                        if (rawId) return String(r.requestId || r.id || '') !== String(rawId);
+                        if (displayId && displayId.startsWith('REL-')) return String(r.requestId || r.id || '') !== String(displayId.replace('REL-', ''));
+                        return true;
+                    });
+                    localStorage.setItem('relocationRequests', JSON.stringify(remaining));
+                } else if (type === 'resignation') {
+                    const resignationRequests = JSON.parse(localStorage.getItem('resignationRequests') || '[]');
+                    const remaining = resignationRequests.filter(r => {
+                        if (rawId) return String(r.requestId || r.id || '') !== String(rawId);
+                        if (displayId && displayId.startsWith('RES-')) return String(r.requestId || r.id || '') !== String(displayId.replace('RES-', ''));
+                        return true;
+                    });
+                    localStorage.setItem('resignationRequests', JSON.stringify(remaining));
+                }
+
+                // Re-load and render UI
+                loadApplications();
             }
             
             function setupLogoutButton() {
