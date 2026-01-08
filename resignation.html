@@ -822,7 +822,52 @@ Sincerely,
             
             let uploadedFiles = [];
             
+            // Load saved user data from localStorage and populate form
+            function loadSavedUserData() {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                
+                // Populate employee name
+                if (userData.firstName && userData.lastName) {
+                    const fullName = `${userData.firstName} ${userData.middleName ? userData.middleName + ' ' : ''}${userData.lastName}`.trim();
+                    const employeeName = document.getElementById('employeeName');
+                    if (employeeName) {
+                        employeeName.value = fullName;
+                    }
+                }
+                
+                // Populate department
+                if (userData.department) {
+                    const departmentSelect = document.getElementById('department');
+                    if (departmentSelect) {
+                        // Convert to lowercase for matching with options
+                        const deptValue = userData.department.toLowerCase();
+                        const options = Array.from(departmentSelect.options);
+                        const matchingOption = options.find(opt => opt.value.toLowerCase() === deptValue);
+                        if (matchingOption) {
+                            departmentSelect.value = matchingOption.value;
+                        }
+                    }
+                }
+                
+                // Populate position
+                if (userData.position) {
+                    const positionInput = document.getElementById('position');
+                    if (positionInput) {
+                        positionInput.value = userData.position;
+                    }
+                }
+                
+                // Populate joining date
+                if (userData.joiningDate) {
+                    const joiningDateInput = document.getElementById('dateOfJoining');
+                    if (joiningDateInput) {
+                        joiningDateInput.value = userData.joiningDate;
+                    }
+                }
+            }
+            
             // Initialize
+            loadSavedUserData();
             setupEventListeners();
             
             function setupEventListeners() {

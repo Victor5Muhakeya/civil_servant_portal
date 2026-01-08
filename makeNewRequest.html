@@ -441,6 +441,9 @@ footer {
     <script>
         // Save new swap request to localStorage for homescreen display
         document.addEventListener('DOMContentLoaded', function() {
+            // Load saved user data
+            loadSavedUserData();
+            
             const form = document.getElementById('swap-form');
             const successMessage = document.getElementById('success-message');
 
@@ -481,6 +484,48 @@ footer {
                         alert('Failed to save request locally.');
                     }
                 });
+            }
+            
+            // Load saved user data from localStorage and populate form
+            function loadSavedUserData() {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                
+                // Populate your department
+                if (userData.department) {
+                    const deptSelect = document.getElementById('yourDepartment');
+                    if (deptSelect) {
+                        const deptValue = userData.department.toLowerCase();
+                        const options = Array.from(deptSelect.options);
+                        const matchingOption = options.find(opt => opt.value.toLowerCase() === deptValue);
+                        if (matchingOption) {
+                            deptSelect.value = matchingOption.value;
+                        }
+                    }
+                }
+                
+                // Populate your position
+                if (userData.position) {
+                    const positionInput = document.getElementById('yourPosition');
+                    if (positionInput) {
+                        positionInput.value = userData.position;
+                    }
+                }
+                
+                // Populate your location
+                if (userData.workLocation) {
+                    const locationInput = document.getElementById('yourLocation');
+                    if (locationInput) {
+                        locationInput.value = userData.workLocation;
+                    }
+                }
+                
+                // Populate your grade level
+                if (userData.gradeLevel) {
+                    const gradeSelect = document.getElementById('yourGrade');
+                    if (gradeSelect) {
+                        gradeSelect.value = userData.gradeLevel;
+                    }
+                }
             }
         });
     </script>

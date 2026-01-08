@@ -459,89 +459,6 @@
             border-color: #bbb;
         }
         
-        /* Documents Section */
-        .documents-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .document-card {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 1.5rem;
-            border: 1px solid #e9ecef;
-            transition: all 0.3s ease;
-        }
-        
-        .document-card:hover {
-            border-color: #3498db;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .document-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            background-color: #e8f4fc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            color: #3498db;
-            font-size: 1.5rem;
-        }
-        
-        .document-info h4 {
-            margin-bottom: 0.5rem;
-            color: #2c3e50;
-        }
-        
-        .document-info p {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        
-        .document-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .doc-btn {
-            flex: 1;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-        }
-        
-        .doc-btn.view {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .doc-btn.view:hover {
-            background-color: #2980b9;
-        }
-        
-        .doc-btn.download {
-            background-color: #f8f9fa;
-            color: #333;
-            border: 1px solid #ddd;
-        }
-        
-        .doc-btn.download:hover {
-            background-color: #e9ecef;
-        }
-        
         /* Alert messages */
         .alert {
             padding: 12px 15px;
@@ -563,82 +480,6 @@
             color: #c53030;
             border-left: 4px solid #c53030;
             display: block;
-        }
-        
-        /* Employment Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 15px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background-color: #e9ecef;
-        }
-        
-        .timeline-item {
-            position: relative;
-            margin-bottom: 2rem;
-        }
-        
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .timeline-marker {
-            position: absolute;
-            left: -30px;
-            top: 5px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background-color: #3498db;
-            border: 3px solid white;
-            box-shadow: 0 0 0 3px #e8f4fc;
-        }
-        
-        .timeline-content {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 3px solid #3498db;
-        }
-        
-        .timeline-date {
-            color: #3498db;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline-title {
-            color: #2c3e50;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline-desc {
-            color: #7f8c8d;
-        }
-        
-        /* Skills Section */
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-        }
-        
-        .skill-tag {
-            padding: 8px 15px;
-            background-color: #e8f4fc;
-            color: #3498db;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
         }
         
         /* Footer */
@@ -724,10 +565,6 @@
                 grid-template-columns: 1fr;
             }
             
-            .documents-list {
-                grid-template-columns: 1fr;
-            }
-            
             .form-actions {
                 flex-direction: column;
             }
@@ -743,46 +580,45 @@
             }
         }
 
-        /* Reduced Footer Size */
-footer {
-    padding: 1.5rem 0 !important;
-}
+        footer {
+            padding: 1.5rem 0;
+        }
 
-.footer-content {
-    max-width: 800px !important;
-    margin: 0 auto !important;
-}
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-.footer-logo {
-    font-size: 1.5rem !important;
-    margin-bottom: 0.8rem !important;
-}
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
 
-.footer-logo i {
-    font-size: 1.7rem !important;
-    margin-right: 8px !important;
-}
+        .footer-logo i {
+            font-size: 1.7rem;
+            margin-right: 8px;
+        }
 
-.footer-content p {
-    margin-bottom: 1rem !important;
-    font-size: 0.9rem !important;
-    color: #bdc3c7 !important;
-}
+        .footer-content p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
 
-.footer-links {
-    margin-bottom: 1rem !important;
-    gap: 1.5rem !important;
-}
+        .footer-links {
+            margin-bottom: 1rem;
+            gap: 1.5rem;
+        }
 
-.footer-links a {
-    font-size: 0.9rem !important;
-}
+        .footer-links a {
+            font-size: 0.9rem;
+        }
 
-.copyright {
-    font-size: 0.8rem !important;
-    color: #95a5a6 !important;
-    margin-top: 1rem !important;
-}
+        .copyright {
+            font-size: 0.8rem;
+            color: #95a5a6;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -795,12 +631,6 @@ footer {
             <ul class="nav-menu">
                 <li><a href="homescreen.html">Home</a></li>
                 <li><a href="profilescreen.html" class="active">Profile</a></li>
-                <!---
-                <li><a href="relocation.html">Relocation</a></li>
-                <li><a href="swap.html">Swap</a></li>
-                <li><a href="resignation.html">Resignation</a></li>
-                <li><a href="index.html">Logout</a></li>
-                -->
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -1148,37 +978,6 @@ footer {
                                     </button>
                                 </div>
                             </form>
-                            
-                            <!-- Employment Timeline -->
-                            <div style="margin-top: 2rem;">
-                                <h3 style="margin-bottom: 1.5rem; color: #2c3e50;">Employment Timeline</h3>
-                                <div class="timeline">
-                                    <div class="timeline-item">
-                                        <div class="timeline-marker"></div>
-                                        <div class="timeline-content">
-                                            <div class="timeline-date">March 2020 - Present</div>
-                                            <div class="timeline-title">Senior Education Officer</div>
-                                            <div class="timeline-desc">Department of Education, Capital City</div>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="timeline-marker"></div>
-                                        <div class="timeline-content">
-                                            <div class="timeline-date">July 2017 - February 2020</div>
-                                            <div class="timeline-title">Education Officer</div>
-                                            <div class="timeline-desc">Regional Education Office, Coastal City</div>
-                                        </div>
-                                    </div>
-                                    <div class="timeline-item">
-                                        <div class="timeline-marker"></div>
-                                        <div class="timeline-content">
-                                            <div class="timeline-date">September 2015 - June 2017</div>
-                                            <div class="timeline-title">Assistant Education Officer</div>
-                                            <div class="timeline-desc">District Education Office, Northern Region</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     
@@ -1291,136 +1090,6 @@ footer {
                                     </button>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                    
-                    <!-- Skills & Qualifications -->
-                    <div class="profile-section">
-                        <div class="section-header">
-                            <h2><i class="fas fa-graduation-cap"></i> Skills & Qualifications</h2>
-                        </div>
-                        <div class="section-content">
-                            <h3 style="margin-bottom: 1rem; color: #2c3e50;">Professional Skills</h3>
-                            <div class="skills-list">
-                                <span class="skill-tag">Educational Policy</span>
-                                <span class="skill-tag">Curriculum Development</span>
-                                <span class="skill-tag">Staff Training</span>
-                                <span class="skill-tag">Project Management</span>
-                                <span class="skill-tag">Data Analysis</span>
-                                <span class="skill-tag">Public Speaking</span>
-                                <span class="skill-tag">Strategic Planning</span>
-                                <span class="skill-tag">Team Leadership</span>
-                            </div>
-                            
-                            <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: #2c3e50;">Qualifications</h3>
-                            <div class="timeline">
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-date">2015</div>
-                                        <div class="timeline-title">Master of Education (M.Ed.)</div>
-                                        <div class="timeline-desc">University of Capital City, Specialization in Educational Leadership</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-date">2012</div>
-                                        <div class="timeline-title">Bachelor of Arts in Education</div>
-                                        <div class="timeline-desc">National University, Major in Secondary Education</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-marker"></div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-date">2021</div>
-                                        <div class="timeline-title">Project Management Professional (PMP)</div>
-                                        <div class="timeline-desc">Project Management Institute</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Documents -->
-                    <div class="profile-section">
-                        <div class="section-header">
-                            <h2><i class="fas fa-file-alt"></i> Documents</h2>
-                        </div>
-                        <div class="section-content">
-                            <div class="documents-list">
-                                <div class="document-card">
-                                    <div class="document-icon">
-                                        <i class="fas fa-file-contract"></i>
-                                    </div>
-                                    <div class="document-info">
-                                        <h4>Employment Contract</h4>
-                                        <p>Original employment agreement and terms</p>
-                                    </div>
-                                    <div class="document-actions">
-                                        <button class="doc-btn view">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <button class="doc-btn download">
-                                            <i class="fas fa-download"></i> Download
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="document-card">
-                                    <div class="document-icon">
-                                        <i class="fas fa-id-card"></i>
-                                    </div>
-                                    <div class="document-info">
-                                        <h4>Employee ID</h4>
-                                        <p>Government-issued identification card</p>
-                                    </div>
-                                    <div class="document-actions">
-                                        <button class="doc-btn view">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <button class="doc-btn download">
-                                            <i class="fas fa-download"></i> Download
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="document-card">
-                                    <div class="document-icon">
-                                        <i class="fas fa-graduation-cap"></i>
-                                    </div>
-                                    <div class="document-info">
-                                        <h4>Educational Certificates</h4>
-                                        <p>Academic degrees and qualifications</p>
-                                    </div>
-                                    <div class="document-actions">
-                                        <button class="doc-btn view">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <button class="doc-btn download">
-                                            <i class="fas fa-download"></i> Download
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="document-card">
-                                    <div class="document-icon">
-                                        <i class="fas fa-award"></i>
-                                    </div>
-                                    <div class="document-info">
-                                        <h4>Certifications</h4>
-                                        <p>Professional certifications and licenses</p>
-                                    </div>
-                                    <div class="document-actions">
-                                        <button class="doc-btn view">
-                                            <i class="fas fa-eye"></i> View
-                                        </button>
-                                        <button class="doc-btn download">
-                                            <i class="fas fa-download"></i> Download
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1704,21 +1373,6 @@ footer {
                         }
                     });
                 }
-                
-                // Document buttons
-                document.querySelectorAll('.doc-btn.view').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const documentTitle = this.closest('.document-card').querySelector('h4').textContent;
-                        alert(`Viewing document: ${documentTitle}\n\nIn a real application, this would open the document viewer.`);
-                    });
-                });
-                
-                document.querySelectorAll('.doc-btn.download').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const documentTitle = this.closest('.document-card').querySelector('h4').textContent;
-                        alert(`Downloading document: ${documentTitle}\n\nIn a real application, this would download the document.`);
-                    });
-                });
             }
             
             function initHamburgerMenu() {

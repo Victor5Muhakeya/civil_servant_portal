@@ -923,6 +923,69 @@ footer {
     <script>
         // Relocation page specific JavaScript
         document.addEventListener('DOMContentLoaded', function() {
+            // Load saved user data
+            loadSavedUserData();
+            
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Load saved user data from localStorage and populate form
+            function loadSavedUserData() {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                
+                // Populate current department
+                if (userData.department) {
+                    const deptSelect = document.getElementById('currentDepartment');
+                    if (deptSelect) {
+                        const deptValue = userData.department.toLowerCase();
+                        const options = Array.from(deptSelect.options);
+                        const matchingOption = options.find(opt => opt.value.toLowerCase() === deptValue);
+                        if (matchingOption) {
+                            deptSelect.value = matchingOption.value;
+                        }
+                    }
+                }
+                
+                // Populate current position
+                if (userData.position) {
+                    const positionInput = document.getElementById('currentPosition');
+                    if (positionInput) {
+                        positionInput.value = userData.position;
+                    }
+                }
+                
+                // Populate current location
+                if (userData.workLocation) {
+                    const locationInput = document.getElementById('currentLocation');
+                    if (locationInput) {
+                        locationInput.value = userData.workLocation;
+                    }
+                }
+                
+                // Populate current grade level
+                if (userData.gradeLevel) {
+                    const gradeSelect = document.getElementById('currentGrade');
+                    if (gradeSelect) {
+                        gradeSelect.value = userData.gradeLevel;
+                    }
+                }
+            }
+            
             // Tab functionality
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -1109,15 +1172,11 @@ footer {
                             // Store request data in localStorage (for demo purposes)
                             const formData = {
                                 requestId: requestId,
-                                id: requestId,
                                 currentDepartment: document.getElementById('currentDepartment').value,
-                                currentPosition: document.getElementById('currentPosition').value,
-                                currentLocation: document.getElementById('currentLocation').value,
+                                requestedDepartment: document.getElementById('requestedDepartment').value,
                                 requestedLocation: document.getElementById('requestedLocation').value,
-                                preferredStartDate: document.getElementById('preferredStartDate').value,
                                 submissionDate: new Date().toLocaleDateString(),
-                                status: 'pending',
-                                type: 'relocation'
+                                status: 'pending'
                             };
                             
                             // Get existing requests or create new array
