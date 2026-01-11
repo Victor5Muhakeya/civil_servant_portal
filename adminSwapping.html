@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil Servant - Swapping Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Swapping Management Styles */
+        .swapping-header {
+            background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .swapping-header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .swapping-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .swapping-welcome h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .swapping-welcome p {
+            color: #bbdefb;
+            font-size: 1.1rem;
+        }
+        
+        .swapping-controls {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .back-btn {
+            background-color: #fff;
+            color: #1976d2;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background-color: #f5f5f5;
+            transform: translateX(-3px);
+        }
+        
+        .swapping-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+        
+        .swapping-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 1100px) {
+            .swapping-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .swapping-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .section-title h2 {
+            font-size: 1.5rem;
+            color: #1976d2;
+        }
+        
+        .applicant-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .applicant-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: #bbdefb;
+        }
+        
+        .applicant-card.pending {
+            border-left: 4px solid #ff9800;
+        }
+        
+        .applicant-card.matched {
+            border-left: 4px solid #4caf50;
+        }
+        
+        .applicant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .applicant-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: #333;
+        }
+        
+        .applicant-info .department {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .applicant-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+        
+        .status-matched {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-available {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .applicant-details {
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+            min-width: 120px;
+        }
+        
+        .detail-value {
+            color: #333;
+        }
+        
+        .swap-actions {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .match-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .match-btn:hover {
+            background-color: #388e3c;
+        }
+        
+        .view-btn {
+            background-color: #2196f3;
+            color: white;
+        }
+        
+        .view-btn:hover {
+            background-color: #1976d2;
+        }
+        
+        .approve-btn {
+            background-color: #00c853;
+            color: white;
+        }
+        
+        .approve-btn:hover {
+            background-color: #00b248;
+        }
+        
+        .decline-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .decline-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        .potential-matches {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .potential-matches h4 {
+            color: #1976d2;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .match-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .match-info h5 {
+            margin-bottom: 0.3rem;
+            color: #333;
+        }
+        
+        .match-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .match-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .match-btn-small {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #757575;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #bbdefb;
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        .swap-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            background-color: #1976d2;
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .swap-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .applicant-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+        }
+        
+        .comparison-arrow {
+            font-size: 2rem;
+            color: #1976d2;
+        }
+        
+        .modal-footer {
+            padding: 1.5rem;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        /* Stats overview */
+        .swapping-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            font-size: 1.5rem;
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .stat-info h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #1976d2;
+        }
+        
+        .stat-info p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-landmark"></i>
+                <span>Civil Servant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="administrationDashboard.html">Admin Dashboard</a></li>
+                <li><a href="adminSwapping.html" class="active">Swapping Management</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="swapping-header">
+        <div class="swapping-header-content">
+            <div class="swapping-header-top">
+                <div class="swapping-welcome">
+                    <h1><i class="fas fa-exchange-alt"></i> Swapping Applications Management</h1>
+                    <p>Review, match, and approve swapping requests between employees</p>
+                </div>
+                <div class="swapping-controls">
+                    <button class="back-btn" id="backBtn">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Stats Overview -->
+            <div class="swapping-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="total-applicants">0</h3>
+                        <p>Total Applicants</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="matched-pairs">0</h3>
+                        <p>Matched Pairs</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pending-reviews">0</h3>
+                        <p>Pending Reviews</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="approved-swaps">0</h3>
+                        <p>Approved Swaps</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="swapping-container">
+        <div class="swapping-grid">
+            <!-- Left Column: Individual Applicants -->
+            <div class="swapping-section">
+                <div class="section-title">
+                    <i class="fas fa-user-clock"></i>
+                    <h2>Individual Swapping Applicants</h2>
+                </div>
+                
+                <div id="individual-applicants">
+                    <!-- Individual applicants will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Right Column: Potential Matches -->
+            <div class="swapping-section">
+                <div class="section-title">
+                    <i class="fas fa-handshake"></i>
+                    <h2>Potential Swap Matches</h2>
+                </div>
+                
+                <div id="potential-matches">
+                    <!-- Potential matches will be loaded here -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Matched Pairs Section -->
+        <div class="swapping-section">
+            <div class="section-title">
+                <i class="fas fa-link"></i>
+                <h2>Matched Swap Pairs</h2>
+            </div>
+            
+            <div id="matched-pairs-list">
+                <!-- Matched pairs will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Swap Details Modal -->
+    <div class="swap-modal" id="swapModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exchange-alt"></i> Swap Request Details</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be loaded here -->
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <!-- Modal buttons will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-landmark"></i>
+                <span>Civil Servant</span>
+            </div>
+            <p>Swapping Management System - For authorized administrators only</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+            </div>
+            <p class="copyright">&copy; <span class="current-year">2025</span> Civil Servant Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data - In real application, this would come from API/database
+        const swappingApplications = [
+            {
+                id: "SWAP-2024-001",
+                applicant: "John Smith",
+                email: "john.smith@gov.uk",
+                department: "Finance",
+                currentLocation: "London Office",
+                desiredLocation: "Manchester Office",
+                currentPosition: "Financial Analyst",
+                desiredPosition: "Financial Analyst",
+                reason: "Family relocation to Manchester area",
+                dateSubmitted: "2024-01-15",
+                status: "pending",
+                preferences: {
+                    sameDepartment: true,
+                    similarLevel: true,
+                    timeframe: "Within 3 months"
+                }
+            },
+            {
+                id: "SWAP-2024-002",
+                applicant: "Sarah Johnson",
+                email: "sarah.johnson@gov.uk",
+                department: "Finance",
+                currentLocation: "Manchester Office",
+                desiredLocation: "London Office",
+                currentPosition: "Financial Analyst",
+                desiredPosition: "Financial Analyst",
+                reason: "Career advancement opportunities in London",
+                dateSubmitted: "2024-01-14",
+                status: "pending",
+                preferences: {
+                    sameDepartment: true,
+                    similarLevel: true,
+                    timeframe: "As soon as possible"
+                }
+            },
+            {
+                id: "SWAP-2024-003",
+                applicant: "Michael Brown",
+                email: "michael.brown@gov.uk",
+                department: "IT Services",
+                currentLocation: "Birmingham Office",
+                desiredLocation: "Edinburgh Office",
+                currentPosition: "IT Support Specialist",
+                desiredPosition: "IT Support Specialist",
+                reason: "Moving closer to family in Scotland",
+                dateSubmitted: "2024-01-13",
+                status: "pending",
+                preferences: {
+                    sameDepartment: true,
+                    similarLevel: true,
+                    timeframe: "Within 6 months"
+                }
+            },
+            {
+                id: "SWAP-2024-004",
+                applicant: "Emma Wilson",
+                email: "emma.wilson@gov.uk",
+                department: "Human Resources",
+                currentLocation: "Cardiff Office",
+                desiredLocation: "Bristol Office",
+                currentPosition: "HR Specialist",
+                desiredPosition: "HR Specialist",
+                reason: "Shorter commute to work",
+                dateSubmitted: "2024-01-12",
+                status: "matched",
+                matchedWith: "SWAP-2024-005"
+            },
+            {
+                id: "SWAP-2024-005",
+                applicant: "David Miller",
+                email: "david.miller@gov.uk",
+                department: "Human Resources",
+                currentLocation: "Bristol Office",
+                desiredLocation: "Cardiff Office",
+                currentPosition: "HR Specialist",
+                desiredPosition: "HR Specialist",
+                reason: "Personal reasons, moving to Cardiff",
+                dateSubmitted: "2024-01-11",
+                status: "matched",
+                matchedWith: "SWAP-2024-004"
+            },
+            {
+                id: "SWAP-2024-006",
+                applicant: "Lisa Anderson",
+                email: "lisa.anderson@gov.uk",
+                department: "Public Relations",
+                currentLocation: "London Office",
+                desiredLocation: "Remote",
+                currentPosition: "PR Officer",
+                desiredPosition: "PR Officer",
+                reason: "Prefer remote work arrangement",
+                dateSubmitted: "2024-01-10",
+                status: "approved",
+                matchedWith: null
+            }
+        ];
+
+        // Matched pairs data
+        const matchedPairs = [
+            {
+                pairId: "PAIR-001",
+                applicant1: "SWAP-2024-004",
+                applicant2: "SWAP-2024-005",
+                matchScore: 95,
+                dateMatched: "2024-01-12",
+                status: "pending_approval",
+                notes: "Perfect match - same department, positions, and opposite location preferences"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is admin
+            const userEmail = localStorage.getItem('userEmail');
+            const userRole = localStorage.getItem('userRole');
+            
+            if (userRole !== 'admin' || userEmail !== 'admin@civilservant.gov') {
+                alert('Access denied. Administrator credentials required.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Update current year in footer
+            const yearElement = document.querySelector('.current-year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+            
+            // Load applications
+            loadIndividualApplicants();
+            loadPotentialMatches();
+            loadMatchedPairs();
+            updateStats();
+            
+            // Back button
+            document.getElementById('backBtn').addEventListener('click', function() {
+                window.location.href = 'administrationDashboard.html';
+            });
+            
+            // Modal close button
+            document.getElementById('closeModal').addEventListener('click', function() {
+                document.getElementById('swapModal').style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('swapModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+        
+        function loadIndividualApplicants() {
+            const container = document.getElementById('individual-applicants');
+            const individualApps = swappingApplications.filter(app => 
+                app.status === 'pending' || app.status === 'available'
+            );
+            
+            if (individualApps.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-user-clock"></i>
+                        <h3>No Individual Applicants</h3>
+                        <p>There are currently no individual swapping applicants.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            individualApps.forEach(app => {
+                const appElement = createApplicantCard(app);
+                container.appendChild(appElement);
+            });
+        }
+        
+        function createApplicantCard(app) {
+            const card = document.createElement('div');
+            card.className = `applicant-card ${app.status}`;
+            
+            const dateObj = new Date(app.dateSubmitted);
+            const formattedDate = dateObj.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+            
+            // Find potential matches for this applicant
+            const potentialMatches = findPotentialMatches(app);
+            
+            card.innerHTML = `
+                <div class="applicant-header">
+                    <div class="applicant-info">
+                        <h3>${app.applicant}</h3>
+                        <div class="department">${app.department} • ${app.currentPosition}</div>
+                        <div><small><i class="fas fa-envelope"></i> ${app.email}</small></div>
+                    </div>
+                    <div>
+                        <span class="applicant-status status-${app.status}">
+                            ${app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="applicant-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Current Location:</span>
+                        <span class="detail-value">${app.currentLocation}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Desired Location:</span>
+                        <span class="detail-value">${app.desiredLocation}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Reason:</span>
+                        <span class="detail-value">${app.reason}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Submitted:</span>
+                        <span class="detail-value">${formattedDate}</span>
+                    </div>
+                </div>
+                
+                ${potentialMatches.length > 0 ? `
+                    <div class="potential-matches">
+                        <h4><i class="fas fa-lightbulb"></i> ${potentialMatches.length} Potential Match${potentialMatches.length > 1 ? 'es' : ''}</h4>
+                        <div class="match-list">
+                            ${potentialMatches.slice(0, 2).map(match => `
+                                <div class="match-item">
+                                    <div class="match-info">
+                                        <h5>${match.applicant}</h5>
+                                        <p>${match.department} • ${match.currentPosition}</p>
+                                        <p><small>Match Score: ${match.matchScore}%</small></p>
+                                    </div>
+                                    <div class="match-actions">
+                                        <button class="action-btn view-btn match-btn-small" onclick="viewMatchDetails('${app.id}', '${match.id}')">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                        <button class="action-btn match-btn match-btn-small" onclick="proposeMatch('${app.id}', '${match.id}')">
+                                            <i class="fas fa-handshake"></i> Match
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <div class="swap-actions">
+                    <button class="action-btn view-btn" onclick="viewApplicantDetails('${app.id}')">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                    <button class="action-btn decline-btn" onclick="declineApplication('${app.id}')">
+                        <i class="fas fa-times"></i> Decline
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function findPotentialMatches(applicant) {
+            const matches = [];
+            
+            swappingApplications.forEach(otherApp => {
+                // Don't match with self
+                if (otherApp.id === applicant.id) return;
+                
+                // Don't match if already matched or approved
+                if (otherApp.status === 'matched' || otherApp.status === 'approved') return;
+                
+                // Check if locations match
+                const locationMatch = 
+                    applicant.desiredLocation === otherApp.currentLocation &&
+                    otherApp.desiredLocation === applicant.currentLocation;
+                
+                // Check department match
+                const departmentMatch = applicant.department === otherApp.department;
+                
+                // Check position match
+                const positionMatch = applicant.currentPosition === otherApp.desiredPosition &&
+                                    otherApp.currentPosition === applicant.desiredPosition;
+                
+                // Calculate match score
+                let matchScore = 0;
+                if (locationMatch) matchScore += 50;
+                if (departmentMatch) matchScore += 30;
+                if (positionMatch) matchScore += 20;
+                
+                if (matchScore >= 50) {
+                    matches.push({
+                        id: otherApp.id,
+                        applicant: otherApp.applicant,
+                        department: otherApp.department,
+                        currentPosition: otherApp.currentPosition,
+                        matchScore: matchScore
+                    });
+                }
+            });
+            
+            // Sort by match score descending
+            return matches.sort((a, b) => b.matchScore - a.matchScore);
+        }
+        
+        function loadPotentialMatches() {
+            const container = document.getElementById('potential-matches');
+            const allMatches = [];
+            
+            // Find all potential matches
+            swappingApplications.forEach(app => {
+                if (app.status === 'pending' || app.status === 'available') {
+                    const matches = findPotentialMatches(app);
+                    matches.forEach(match => {
+                        // Avoid duplicates
+                        if (!allMatches.some(m => 
+                            (m.app1 === app.id && m.app2 === match.id) ||
+                            (m.app1 === match.id && m.app2 === app.id)
+                        )) {
+                            allMatches.push({
+                                app1: app.id,
+                                app2: match.id,
+                                applicant1: app.applicant,
+                                applicant2: match.applicant,
+                                score: match.matchScore
+                            });
+                        }
+                    });
+                }
+            });
+            
+            if (allMatches.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-handshake"></i>
+                        <h3>No Potential Matches Found</h3>
+                        <p>No compatible swap matches found at this time.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            allMatches.forEach(match => {
+                const app1 = swappingApplications.find(a => a.id === match.app1);
+                const app2 = swappingApplications.find(a => a.id === match.app2);
+                
+                const matchElement = document.createElement('div');
+                matchElement.className = 'match-item';
+                matchElement.innerHTML = `
+                    <div class="match-info">
+                        <h5>${match.applicant1} ↔ ${match.applicant2}</h5>
+                        <p>${app1.department} • Match Score: ${match.score}%</p>
+                        <p><small>${app1.currentLocation} ⇄ ${app2.currentLocation}</small></p>
+                    </div>
+                    <div class="match-actions">
+                        <button class="action-btn view-btn match-btn-small" onclick="viewMatchDetails('${match.app1}', '${match.app2}')">
+                            <i class="fas fa-eye"></i> Details
+                        </button>
+                        <button class="action-btn match-btn match-btn-small" onclick="proposeMatch('${match.app1}', '${match.app2}')">
+                            <i class="fas fa-handshake"></i> Propose
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(matchElement);
+            });
+        }
+        
+        function loadMatchedPairs() {
+            const container = document.getElementById('matched-pairs-list');
+            
+            if (matchedPairs.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-link"></i>
+                        <h3>No Matched Pairs</h3>
+                        <p>No swap pairs have been matched yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            matchedPairs.forEach(pair => {
+                const app1 = swappingApplications.find(a => a.id === pair.applicant1);
+                const app2 = swappingApplications.find(a => a.id === pair.applicant2);
+                
+                const pairElement = document.createElement('div');
+                pairElement.className = 'applicant-card matched';
+                
+                const dateObj = new Date(pair.dateMatched);
+                const formattedDate = dateObj.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                pairElement.innerHTML = `
+                    <div class="applicant-header">
+                        <div class="applicant-info">
+                            <h3>${app1.applicant} ↔ ${app2.applicant}</h3>
+                            <div class="department">Pair ID: ${pair.pairId}</div>
+                            <div><small>Matched on: ${formattedDate}</small></div>
+                        </div>
+                        <div>
+                            <span class="applicant-status status-matched">
+                                ${pair.status.replace('_', ' ').toUpperCase()}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="applicant-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Departments:</span>
+                            <span class="detail-value">${app1.department} (both)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Swap:</span>
+                            <span class="detail-value">${app1.currentLocation} ⇄ ${app2.currentLocation}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Positions:</span>
+                            <span class="detail-value">${app1.currentPosition} (unchanged)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Match Score:</span>
+                            <span class="detail-value">${pair.matchScore}%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Notes:</span>
+                            <span class="detail-value">${pair.notes}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="swap-actions">
+                        <button class="action-btn view-btn" onclick="viewMatchedPair('${pair.pairId}')">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                        <button class="action-btn approve-btn" onclick="approveSwapPair('${pair.pairId}')">
+                            <i class="fas fa-check"></i> Approve Swap
+                        </button>
+                        <button class="action-btn decline-btn" onclick="declineSwapPair('${pair.pairId}')">
+                            <i class="fas fa-times"></i> Decline
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(pairElement);
+            });
+        }
+        
+        function updateStats() {
+            const totalApplicants = swappingApplications.length;
+            const matchedPairsCount = matchedPairs.length;
+            const pendingReviews = swappingApplications.filter(app => 
+                app.status === 'pending' || app.status === 'available'
+            ).length;
+            const approvedSwaps = swappingApplications.filter(app => 
+                app.status === 'approved'
+            ).length;
+            
+            document.getElementById('total-applicants').textContent = totalApplicants;
+            document.getElementById('matched-pairs').textContent = matchedPairsCount;
+            document.getElementById('pending-reviews').textContent = pendingReviews;
+            document.getElementById('approved-swaps').textContent = approvedSwaps;
+        }
+        
+        function viewApplicantDetails(appId) {
+            const app = swappingApplications.find(a => a.id === appId);
+            if (!app) return;
+            
+            const modal = document.getElementById('swapModal');
+            const modalBody = document.getElementById('modalBody');
+            const modalFooter = document.getElementById('modalFooter');
+            
+            const dateObj = new Date(app.dateSubmitted);
+            const formattedDate = dateObj.toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            modalBody.innerHTML = `
+                <h4>Applicant Information</h4>
+                <div class="detail-row">
+                    <span class="detail-label">Name:</span>
+                    <span class="detail-value">${app.applicant}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Email:</span>
+                    <span class="detail-value">${app.email}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Department:</span>
+                    <span class="detail-value">${app.department}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Current Position:</span>
+                    <span class="detail-value">${app.currentPosition}</span>
+                </div>
+                
+                <h4 style="margin-top: 2rem;">Swap Request Details</h4>
+                <div class="swap-details-grid">
+                    <div>
+                        <h5>Current Location</h5>
+                        <p><i class="fas fa-map-marker-alt"></i> ${app.currentLocation}</p>
+                    </div>
+                    <div>
+                        <h5>Desired Location</h5>
+                        <p><i class="fas fa-map-marker-alt"></i> ${app.desiredLocation}</p>
+                    </div>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Desired Position:</span>
+                    <span class="detail-value">${app.desiredPosition}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Reason for Swap:</span>
+                    <span class="detail-value">${app.reason}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Date Submitted:</span>
+                    <span class="detail-value">${formattedDate}</span>
+                </div>
+                
+                ${app.preferences ? `
+                    <h4 style="margin-top: 2rem;">Applicant Preferences</h4>
+                    <div class="detail-row">
+                        <span class="detail-label">Same Department:</span>
+                        <span class="detail-value">${app.preferences.sameDepartment ? 'Yes' : 'No'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Similar Level:</span>
+                        <span class="detail-value">${app.preferences.similarLevel ? 'Yes' : 'No'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Preferred Timeframe:</span>
+                        <span class="detail-value">${app.preferences.timeframe}</span>
+                    </div>
+                ` : ''}
+            `;
+            
+            modalFooter.innerHTML = `
+                <button class="action-btn decline-btn" onclick="declineApplication('${app.id}')">
+                    <i class="fas fa-times"></i> Decline Application
+                </button>
+                <button class="action-btn view-btn" onclick="findMatchesForApplicant('${app.id}')">
+                    <i class="fas fa-search"></i> Find Matches
+                </button>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function viewMatchDetails(appId1, appId2) {
+            const app1 = swappingApplications.find(a => a.id === appId1);
+            const app2 = swappingApplications.find(a => a.id === appId2);
+            
+            if (!app1 || !app2) return;
+            
+            const matchScore = calculateMatchScore(app1, app2);
+            
+            const modal = document.getElementById('swapModal');
+            const modalBody = document.getElementById('modalBody');
+            const modalFooter = document.getElementById('modalFooter');
+            
+            modalBody.innerHTML = `
+                <h4>Potential Swap Match</h4>
+                <div class="applicant-comparison">
+                    <div>
+                        <h5>${app1.applicant}</h5>
+                        <p><i class="fas fa-building"></i> ${app1.department}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> ${app1.currentLocation}</p>
+                        <p><i class="fas fa-briefcase"></i> ${app1.currentPosition}</p>
+                        <p><strong>Desires:</strong> ${app1.desiredLocation}</p>
+                    </div>
+                    <div class="comparison-arrow">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div>
+                        <h5>${app2.applicant}</h5>
+                        <p><i class="fas fa-building"></i> ${app2.department}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> ${app2.currentLocation}</p>
+                        <p><i class="fas fa-briefcase"></i> ${app2.currentPosition}</p>
+                        <p><strong>Desires:</strong> ${app2.desiredLocation}</p>
+                    </div>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Match Score:</span>
+                    <span class="detail-value"><strong>${matchScore}%</strong></span>
+                </div>
+                
+                <h5>Compatibility Analysis:</h5>
+                <ul>
+                    <li>${app1.desiredLocation === app2.currentLocation ? '✓' : '✗'} Location swap is compatible</li>
+                    <li>${app1.currentLocation === app2.desiredLocation ? '✓' : '✗'} Reverse location matches</li>
+                    <li>${app1.department === app2.department ? '✓' : '✗'} Same department</li>
+                    <li>${app1.currentPosition === app2.desiredPosition ? '✓' : '✗'} Position compatibility</li>
+                </ul>
+                
+                <h5>Reasons for Swap:</h5>
+                <p><strong>${app1.applicant}:</strong> ${app1.reason}</p>
+                <p><strong>${app2.applicant}:</strong> ${app2.reason}</p>
+            `;
+            
+            modalFooter.innerHTML = `
+                <button class="action-btn decline-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="action-btn match-btn" onclick="proposeMatch('${appId1}', '${appId2}')">
+                    <i class="fas fa-handshake"></i> Propose Match
+                </button>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function calculateMatchScore(app1, app2) {
+            let score = 0;
+            if (app1.desiredLocation === app2.currentLocation &&
+                app2.desiredLocation === app1.currentLocation) {
+                score += 50;
+            }
+            if (app1.department === app2.department) {
+                score += 30;
+            }
+            if (app1.currentPosition === app2.desiredPosition &&
+                app2.currentPosition === app1.desiredPosition) {
+                score += 20;
+            }
+            return score;
+        }
+        
+        function proposeMatch(appId1, appId2) {
+            if (confirm('Are you sure you want to propose this swap match? Both applicants will be notified.')) {
+                // Find existing pair or create new one
+                const existingPair = matchedPairs.find(pair => 
+                    (pair.applicant1 === appId1 && pair.applicant2 === appId2) ||
+                    (pair.applicant1 === appId2 && pair.applicant2 === appId1)
+                );
+                
+                if (!existingPair) {
+                    const app1 = swappingApplications.find(a => a.id === appId1);
+                    const app2 = swappingApplications.find(a => a.id === appId2);
+                    
+                    const newPair = {
+                        pairId: `PAIR-${String(matchedPairs.length + 1).padStart(3, '0')}`,
+                        applicant1: appId1,
+                        applicant2: appId2,
+                        matchScore: calculateMatchScore(app1, app2),
+                        dateMatched: new Date().toISOString().split('T')[0],
+                        status: 'pending_approval',
+                        notes: 'Match proposed by administrator'
+                    };
+                    
+                    matchedPairs.push(newPair);
+                    
+                    // Update application statuses
+                    app1.status = 'matched';
+                    app1.matchedWith = appId2;
+                    app2.status = 'matched';
+                    app2.matchedWith = appId1;
+                    
+                    showNotification('Match proposed successfully!', 'success');
+                    loadIndividualApplicants();
+                    loadPotentialMatches();
+                    loadMatchedPairs();
+                    updateStats();
+                    closeModal();
+                }
+            }
+        }
+        
+        function approveSwapPair(pairId) {
+            if (confirm('Approve this swap? This will finalize the swap arrangement.')) {
+                const pair = matchedPairs.find(p => p.pairId === pairId);
+                if (pair) {
+                    pair.status = 'approved';
+                    
+                    // Update application statuses
+                    const app1 = swappingApplications.find(a => a.id === pair.applicant1);
+                    const app2 = swappingApplications.find(a => a.id === pair.applicant2);
+                    
+                    if (app1) app1.status = 'approved';
+                    if (app2) app2.status = 'approved';
+                    
+                    showNotification('Swap approved successfully!', 'success');
+                    loadIndividualApplicants();
+                    loadMatchedPairs();
+                    updateStats();
+                }
+            }
+        }
+        
+        function declineSwapPair(pairId) {
+            if (confirm('Decline this swap pair? Both applications will return to available status.')) {
+                const pairIndex = matchedPairs.findIndex(p => p.pairId === pairId);
+                if (pairIndex !== -1) {
+                    const pair = matchedPairs[pairIndex];
+                    
+                    // Update application statuses
+                    const app1 = swappingApplications.find(a => a.id === pair.applicant1);
+                    const app2 = swappingApplications.find(a => a.id === pair.applicant2);
+                    
+                    if (app1) {
+                        app1.status = 'available';
+                        app1.matchedWith = null;
+                    }
+                    if (app2) {
+                        app2.status = 'available';
+                        app2.matchedWith = null;
+                    }
+                    
+                    matchedPairs.splice(pairIndex, 1);
+                    
+                    showNotification('Swap pair declined.', 'info');
+                    loadIndividualApplicants();
+                    loadPotentialMatches();
+                    loadMatchedPairs();
+                    updateStats();
+                }
+            }
+        }
+        
+        function declineApplication(appId) {
+            if (confirm('Decline this swapping application? The applicant will be notified.')) {
+                const app = swappingApplications.find(a => a.id === appId);
+                if (app) {
+                    app.status = 'declined';
+                    showNotification('Application declined.', 'info');
+                    loadIndividualApplicants();
+                    loadPotentialMatches();
+                    updateStats();
+                    closeModal();
+                }
+            }
+        }
+        
+        function findMatchesForApplicant(appId) {
+            const app = swappingApplications.find(a => a.id === appId);
+            const matches = findPotentialMatches(app);
+            
+            if (matches.length === 0) {
+                alert('No potential matches found for this applicant.');
+                return;
+            }
+            
+            // Show matches in modal
+            const modal = document.getElementById('swapModal');
+            const modalBody = document.getElementById('modalBody');
+            const modalFooter = document.getElementById('modalFooter');
+            
+            modalBody.innerHTML = `
+                <h4>Potential Matches for ${app.applicant}</h4>
+                <p>Found ${matches.length} potential match${matches.length > 1 ? 'es' : ''}:</p>
+                
+                <div style="margin-top: 1.5rem;">
+                    ${matches.map(match => `
+                        <div class="match-item" style="margin-bottom: 1rem;">
+                            <div class="match-info">
+                                <h5>${match.applicant}</h5>
+                                <p>${match.department} • ${match.currentPosition}</p>
+                                <p><small>Match Score: ${match.matchScore}%</small></p>
+                            </div>
+                            <div class="match-actions">
+                                <button class="action-btn match-btn match-btn-small" onclick="proposeMatch('${appId}', '${match.id}')">
+                                    <i class="fas fa-handshake"></i> Match
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            modalFooter.innerHTML = `
+                <button class="action-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('swapModal').style.display = 'none';
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#d4edda' : '#d1ecf1'};
+                color: ${type === 'success' ? '#155724' : '#0c5460'};
+                padding: 1rem 1.5rem;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

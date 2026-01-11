@@ -452,66 +452,83 @@ footer {
             }
             
             // Handle login form submission
-            const loginForm = document.getElementById('login-form');
-            const loginButton = document.getElementById('loginButton');
-            const buttonText = document.getElementById('buttonText');
-            const buttonSpinner = document.getElementById('buttonSpinner');
-            const errorMessage = document.getElementById('error-message');
-            const successMessage = document.getElementById('success-message');
+            // Handle login form submission
+const loginForm = document.getElementById('login-form');
+const loginButton = document.getElementById('loginButton');
+const buttonText = document.getElementById('buttonText');
+const buttonSpinner = document.getElementById('buttonSpinner');
+const errorMessage = document.getElementById('error-message');
+const successMessage = document.getElementById('success-message');
+
+if (loginForm) {
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Get form values
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const rememberMe = document.getElementById('remember').checked;
+        
+        // Show loading state
+        buttonText.style.display = 'none';
+        buttonSpinner.style.display = 'inline';
+        loginButton.disabled = true;
+        
+        // Hide any previous messages
+        errorMessage.style.display = 'none';
+        successMessage.style.display = 'none';
+        
+        // Simulate API call delay
+        setTimeout(function() {
+            // Demo credentials
+            const demoEmail = 'demo@civilservant.gov';
+            const demoPassword = 'demo123';
             
-            if (loginForm) {
-                loginForm.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    
-                    // Get form values
-                    const email = document.getElementById('email').value;
-                    const password = document.getElementById('password').value;
-                    const rememberMe = document.getElementById('remember').checked;
-                    
-                    // Show loading state
-                    buttonText.style.display = 'none';
-                    buttonSpinner.style.display = 'inline';
-                    loginButton.disabled = true;
-                    
-                    // Hide any previous messages
-                    errorMessage.style.display = 'none';
-                    successMessage.style.display = 'none';
-                    
-                    // Simulate API call delay
+            // Admin credentials (as specified in requirements)
+            const adminEmail = 'admin@civilservant.gov';
+            const adminPassword = 'demo123';
+            
+            if ((email === demoEmail && password === demoPassword) || 
+                (email === adminEmail && password === adminPassword)) {
+                
+                // Successful login
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                // Store login state in localStorage (for demo purposes)
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                if (rememberMe) {
+                    localStorage.setItem('rememberMe', 'true');
+                }
+                
+                // Check if admin login
+                if (email === adminEmail) {
+                    localStorage.setItem('userRole', 'admin');
+                    // Redirect to admin dashboard
                     setTimeout(function() {
-                        // Demo validation - in real app, this would be an API call
-                        const demoEmail = 'demo@civilservant.gov';
-                        const demoPassword = 'demo123';
-                        
-                        if (email === demoEmail && password === demoPassword) {
-                            // Successful login
-                            successMessage.style.display = 'block';
-                            errorMessage.style.display = 'none';
-                            
-                            // Store login state in localStorage (for demo purposes)
-                            localStorage.setItem('isLoggedIn', 'true');
-                            localStorage.setItem('userEmail', email);
-                            if (rememberMe) {
-                                localStorage.setItem('rememberMe', 'true');
-                            }
-                            
-                            // REDIRECT TO HOMESCREEN/DASHBOARD after 2 seconds
-                            setTimeout(function() {
-                                window.location.href = 'homescreen.html';
-                            }, 2000);
-                        } else {
-                            // Failed login
-                            errorMessage.style.display = 'block';
-                            successMessage.style.display = 'none';
-                            
-                            // Reset button state
-                            buttonText.style.display = 'inline';
-                            buttonSpinner.style.display = 'none';
-                            loginButton.disabled = false;
-                        }
-                    }, 1500); // Simulate network delay
-                });
+                        window.location.href = 'administrationDashboard.html';
+                    }, 1500);
+                } else {
+                    localStorage.setItem('userRole', 'user');
+                    // Redirect to regular user dashboard
+                    setTimeout(function() {
+                        window.location.href = 'homescreen.html';
+                    }, 1500);
+                }
+            } else {
+                // Failed login
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                
+                // Reset button state
+                buttonText.style.display = 'inline';
+                buttonSpinner.style.display = 'none';
+                loginButton.disabled = false;
             }
+        }, 1500); // Simulate network delay
+    });
+}
             
             // Social login buttons
             document.querySelectorAll('.social-btn').forEach(button => {
