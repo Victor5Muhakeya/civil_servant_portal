@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil Servant - Administration Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Admin Dashboard Styles */
+        .admin-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-welcome h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-welcome p {
+            color: #bdc3c7;
+            font-size: 1.1rem;
+        }
+        
+        .admin-controls {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .admin-controls button {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .refresh-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .refresh-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .stat-icon.swapping {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .stat-icon.relocation {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .stat-icon.resignation {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .stat-icon.total {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        .stat-info h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .stat-info p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        
+        .dashboard-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+        }
+        
+        .section-header h2 i {
+            margin-right: 10px;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .applications-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .applications-table th {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .applications-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #ecf0f1;
+            vertical-align: top;
+        }
+        
+        .applications-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .application-type {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .type-swapping {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .type-relocation {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .type-resignation {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-in-review {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .view-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .approve-btn {
+            background-color: #27ae60;
+            color: white;
+        }
+        
+        .approve-btn:hover {
+            background-color: #219653;
+        }
+        
+        .reject-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .reject-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+        
+        .no-data i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #bdc3c7;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .admin-header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .applications-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .filter-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-landmark"></i>
+                <span>Civil Servant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="administrationDashboard.html" class="active">Admin Dashboard</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <div class="admin-welcome">
+                <h1><i class="fas fa-user-shield"></i> Administration Dashboard</h1>
+                <p>Manage all employee applications and requests</p>
+            </div>
+            <div class="admin-controls">
+                <button class="refresh-btn" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i> Refresh Data
+                </button>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon swapping">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="swapping-count">24</h3>
+                    <p>Swapping Applications</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon relocation">
+                    <i class="fas fa-truck-moving"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="relocation-count">18</h3>
+                    <p>Relocation Requests</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon resignation">
+                    <i class="fas fa-user-minus"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="resignation-count">12</h3>
+                    <p>Resignation Applications</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="total-count">54</h3>
+                    <p>Total Applications</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications Section -->
+        <div class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> All Applications</h2>
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="swapping">Swapping</button>
+                    <button class="filter-btn" data-filter="relocation">Relocation</button>
+                    <button class="filter-btn" data-filter="resignation">Resignation</button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="applications-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Applicant</th>
+                            <th>Type</th>
+                            <th>Department</th>
+                            <th>Date Submitted</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applications-table-body">
+                        <!-- Applications will be populated by JavaScript -->
+                    </tbody>
+                </table>
+                <div id="no-applications" class="no-data" style="display: none;">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No applications found</h3>
+                    <p>There are no applications matching your current filter.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-landmark"></i>
+                <span>Civil Servant</span>
+            </div>
+            <p>Administration Portal - For authorized personnel only</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+            </div>
+            <p class="copyright">&copy; <span class="current-year">2025</span> Civil Servant Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Sample application data
+        const applications = [
+            {
+                id: "APP-2024-001",
+                applicant: "John Smith",
+                email: "john.smith@gov.uk",
+                type: "swapping",
+                department: "Finance",
+                date: "2024-01-15",
+                status: "pending",
+                details: "Requesting swap with Sarah Johnson from London office due to family relocation."
+            },
+            {
+                id: "APP-2024-002",
+                applicant: "Emma Wilson",
+                email: "emma.wilson@gov.uk",
+                type: "relocation",
+                department: "Human Resources",
+                date: "2024-01-14",
+                status: "approved",
+                details: "Requesting relocation to Manchester office for personal reasons."
+            },
+            {
+                id: "APP-2024-003",
+                applicant: "Michael Brown",
+                email: "michael.brown@gov.uk",
+                type: "resignation",
+                department: "IT Services",
+                date: "2024-01-13",
+                status: "in-review",
+                details: "Submitting resignation with 30-day notice period as per contract."
+            },
+            {
+                id: "APP-2024-004",
+                applicant: "Sarah Johnson",
+                email: "sarah.johnson@gov.uk",
+                type: "swapping",
+                department: "Finance",
+                date: "2024-01-12",
+                status: "pending",
+                details: "Interested in swapping positions with John Smith for better work-life balance."
+            },
+            {
+                id: "APP-2024-005",
+                applicant: "Robert Davis",
+                email: "robert.davis@gov.uk",
+                type: "relocation",
+                department: "Public Relations",
+                date: "2024-01-11",
+                status: "rejected",
+                details: "Requesting relocation to Scotland office due to spouse's job transfer."
+            },
+            {
+                id: "APP-2024-006",
+                applicant: "Lisa Anderson",
+                email: "lisa.anderson@gov.uk",
+                type: "swapping",
+                department: "Education",
+                date: "2024-01-10",
+                status: "approved",
+                details: "Seeking to swap with a colleague in the Birmingham office."
+            },
+            {
+                id: "APP-2024-007",
+                applicant: "David Miller",
+                email: "david.miller@gov.uk",
+                type: "resignation",
+                department: "Health Services",
+                date: "2024-01-09",
+                status: "pending",
+                details: "Resignation due to acceptance of a position in the private sector."
+            },
+            {
+                id: "APP-2024-008",
+                applicant: "Jessica Taylor",
+                email: "jessica.taylor@gov.uk",
+                type: "relocation",
+                department: "Legal Affairs",
+                date: "2024-01-08",
+                status: "in-review",
+                details: "Requesting relocation to be closer to aging parents."
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is admin
+            const userEmail = localStorage.getItem('userEmail');
+            const userRole = localStorage.getItem('userRole');
+            
+            if (userRole !== 'admin' || userEmail !== 'admin@civilservant.gov') {
+                // Redirect to login if not admin
+                alert('Access denied. Administrator credentials required.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Update current year in footer
+            const yearElement = document.querySelector('.current-year');
+            if (yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+            }
+            
+            // Populate applications table
+            populateApplicationsTable('all');
+            updateStatistics();
+            
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Filter applications
+                    const filter = this.getAttribute('data-filter');
+                    populateApplicationsTable(filter);
+                });
+            });
+            
+            // Refresh button
+            document.getElementById('refreshBtn').addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+                this.disabled = true;
+                
+                // Simulate refresh delay
+                setTimeout(() => {
+                    // In a real app, this would fetch new data from server
+                    updateStatistics();
+                    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                    populateApplicationsTable(activeFilter);
+                    
+                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Data';
+                    this.disabled = false;
+                    
+                    // Show refresh confirmation
+                    showNotification('Data refreshed successfully', 'success');
+                }, 1000);
+            });
+            
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userRole');
+                localStorage.removeItem('rememberMe');
+                window.location.href = 'login.html';
+            });
+            
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // Close mobile menu when clicking a link
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+        
+        function populateApplicationsTable(filter = 'all') {
+            const tableBody = document.getElementById('applications-table-body');
+            const noApplications = document.getElementById('no-applications');
+            
+            // Filter applications
+            let filteredApplications = applications;
+            if (filter !== 'all') {
+                filteredApplications = applications.filter(app => app.type === filter);
+            }
+            
+            // Clear table
+            tableBody.innerHTML = '';
+            
+            // Show no data message if no applications
+            if (filteredApplications.length === 0) {
+                tableBody.style.display = 'none';
+                noApplications.style.display = 'block';
+                return;
+            }
+            
+            // Show table
+            tableBody.style.display = 'table-row-group';
+            noApplications.style.display = 'none';
+            
+            // Populate table rows
+            filteredApplications.forEach(app => {
+                const row = document.createElement('tr');
+                
+                // Format date
+                const dateObj = new Date(app.date);
+                const formattedDate = dateObj.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                // Determine type badge
+                let typeBadge = '';
+                let typeText = '';
+                switch(app.type) {
+                    case 'swapping':
+                        typeBadge = 'type-swapping';
+                        typeText = 'Swapping';
+                        break;
+                    case 'relocation':
+                        typeBadge = 'type-relocation';
+                        typeText = 'Relocation';
+                        break;
+                    case 'resignation':
+                        typeBadge = 'type-resignation';
+                        typeText = 'Resignation';
+                        break;
+                }
+                
+                // Determine status badge
+                let statusBadge = '';
+                let statusText = '';
+                switch(app.status) {
+                    case 'pending':
+                        statusBadge = 'status-pending';
+                        statusText = 'Pending';
+                        break;
+                    case 'approved':
+                        statusBadge = 'status-approved';
+                        statusText = 'Approved';
+                        break;
+                    case 'rejected':
+                        statusBadge = 'status-rejected';
+                        statusText = 'Rejected';
+                        break;
+                    case 'in-review':
+                        statusBadge = 'status-in-review';
+                        statusText = 'In Review';
+                        break;
+                }
+                
+                row.innerHTML = `
+                    <td>${app.id}</td>
+                    <td>
+                        <strong>${app.applicant}</strong><br>
+                        <small>${app.email}</small>
+                    </td>
+                    <td><span class="application-type ${typeBadge}">${typeText}</span></td>
+                    <td>${app.department}</td>
+                    <td>${formattedDate}</td>
+                    <td><span class="status ${statusBadge}">${statusText}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn view-btn" onclick="viewApplication('${app.id}')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            ${app.status === 'pending' || app.status === 'in-review' ? `
+                                <button class="action-btn approve-btn" onclick="updateStatus('${app.id}', 'approved')">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                                <button class="action-btn reject-btn" onclick="updateStatus('${app.id}', 'rejected')">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function updateStatistics() {
+            const swappingCount = applications.filter(app => app.type === 'swapping').length;
+            const relocationCount = applications.filter(app => app.type === 'relocation').length;
+            const resignationCount = applications.filter(app => app.type === 'resignation').length;
+            const totalCount = applications.length;
+            
+            document.getElementById('swapping-count').textContent = swappingCount;
+            document.getElementById('relocation-count').textContent = relocationCount;
+            document.getElementById('resignation-count').textContent = resignationCount;
+            document.getElementById('total-count').textContent = totalCount;
+        }
+        
+        function viewApplication(appId) {
+            const app = applications.find(a => a.id === appId);
+            if (app) {
+                alert(`Application Details:\n\nID: ${app.id}\nApplicant: ${app.applicant}\nType: ${app.type}\nDepartment: ${app.department}\nStatus: ${app.status}\n\nDetails:\n${app.details}`);
+            }
+        }
+        
+        function updateStatus(appId, newStatus) {
+            const appIndex = applications.findIndex(a => a.id === appId);
+            if (appIndex !== -1) {
+                applications[appIndex].status = newStatus;
+                
+                // Update table
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                populateApplicationsTable(activeFilter);
+                updateStatistics();
+                
+                showNotification(`Application ${appId} status updated to ${newStatus}`, 'success');
+            }
+        }
+        
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+            `;
+            
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#d4edda' : '#f8d7da'};
+                color: ${type === 'success' ? '#155724' : '#721c24'};
+                padding: 1rem 1.5rem;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
