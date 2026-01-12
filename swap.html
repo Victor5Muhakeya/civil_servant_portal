@@ -792,6 +792,9 @@ footer {
 
             function getSwapRequests() {
                 try {
+                    if (typeof getApplications === 'function') {
+                        return getApplications().filter(a => (a.type||'').toLowerCase() === 'swap');
+                    }
                     return JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
                 } catch (e) {
                     return [];
@@ -868,7 +871,8 @@ footer {
 
             // Global storage listener so multiple tabs update automatically
             window.addEventListener('storage', function(e) {
-                if (e.key === 'globalSwapRequests') {
+                if (!e) return;
+                if (e.key === 'globalSwapRequests' || e.key === 'applications' || (typeof APP_KEY !== 'undefined' && e.key === APP_KEY) || e.key === (APP_KEY + '_updatedAt')) {
                     filterMatches();
                 }
             });
@@ -944,13 +948,22 @@ footer {
                         };
 
                         try {
-                            const existing = JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
-                            existing.unshift(req);
-                            localStorage.setItem('globalSwapRequests', JSON.stringify(existing));
+                            // Use shared helper so admin dashboard and other pages see this
+                            req.type = 'swap';
+                            if (typeof addApplication === 'function') {
+                                addApplication(req);
+                            } else {
+                                const existing = JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
+                                existing.unshift(req);
+                                localStorage.setItem('globalSwapRequests', JSON.stringify(existing));
+                                // maintain backward-compatible applications key
+                                const apps = JSON.parse(localStorage.getItem('applications') || '[]');
+                                apps.unshift(req);
+                                localStorage.setItem('applications', JSON.stringify(apps));
+                                window.dispatchEvent(new Event('applicationsUpdated'));
+                            }
                             if (successMessage) { successMessage.style.display = 'block'; }
                             setTimeout(() => { if (successMessage) successMessage.style.display = 'none'; }, 2500);
-                            // Update listing immediately
-                            window.dispatchEvent(new StorageEvent('storage', { key: 'globalSwapRequests', newValue: JSON.stringify(existing) }));
                         } catch (err) {
                             alert('Failed to save request locally.');
                         }

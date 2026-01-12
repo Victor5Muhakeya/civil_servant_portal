@@ -93,3 +93,89 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.feature-card').forEach(card => {
     observer.observe(card);
 });
+
+    // --- Unified applications storage and admin dashboard counters ---
+    const APP_KEY = 'applications';
+
+    function getApplications() {
+        try {
+            return JSON.parse(localStorage.getItem(APP_KEY) || '[]');
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveApplications(apps) {
+        localStorage.setItem(APP_KEY, JSON.stringify(apps));
+        // notify same-tab listeners
+        window.dispatchEvent(new Event('applicationsUpdated'));
+        // trigger storage event for other tabs (some browsers restrict constructing StorageEvent)
+        try {
+            window.dispatchEvent(new StorageEvent('storage', { key: APP_KEY, newValue: JSON.stringify(apps) }));
+        } catch (e) {
+            localStorage.setItem(APP_KEY + '_updatedAt', Date.now());
+        }
+    }
+
+    function addApplication(app) {
+        const apps = getApplications();
+        apps.unshift(app);
+        saveApplications(apps);
+    }
+
+    function getApplicationCounts() {
+        const apps = getApplications();
+        const counts = { swap: 0, relocation: 0, resignation: 0, total: apps.length };
+        apps.forEach(a => {
+            const t = (a.type || '').toLowerCase();
+            if (t === 'swap') counts.swap++;
+            if (t === 'relocation') counts.relocation++;
+            if (t === 'resignation') counts.resignation++;
+        });
+        return counts;
+    }
+
+    function updateAdminDashboardCounts() {
+        const counts = getApplicationCounts();
+        const elSwap = document.getElementById('count-swap');
+        const elReloc = document.getElementById('count-relocation');
+        const elResign = document.getElementById('count-resignation');
+        const elTotal = document.getElementById('count-total');
+
+        if (elSwap) elSwap.textContent = counts.swap;
+        if (elReloc) elReloc.textContent = counts.relocation;
+        if (elResign) elResign.textContent = counts.resignation;
+        if (elTotal) elTotal.textContent = counts.total;
+    }
+
+    // Migrate legacy globalSwapRequests to unified applications key (idempotent)
+    (function migrateLegacy() {
+        try {
+            const legacy = JSON.parse(localStorage.getItem('globalSwapRequests') || '[]');
+            if (Array.isArray(legacy) && legacy.length > 0) {
+                const apps = getApplications();
+                let changed = false;
+                legacy.forEach(r => {
+                    if (!apps.find(a => String(a.id) === String(r.id))) {
+                        r.type = r.type || 'swap';
+                        apps.unshift(r);
+                        changed = true;
+                    }
+                });
+                if (changed) saveApplications(apps);
+            }
+        } catch (e) { }
+    })();
+
+    // Keep counts in sync in real-time
+    window.addEventListener('applicationsUpdated', updateAdminDashboardCounts);
+    window.addEventListener('storage', function(e) {
+        if (!e) return;
+        if (e.key === APP_KEY || e.key === 'applications' || e.key === APP_KEY + '_updatedAt') {
+            updateAdminDashboardCounts();
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateAdminDashboardCounts();
+    });
