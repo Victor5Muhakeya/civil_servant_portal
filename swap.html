@@ -840,6 +840,7 @@ footer {
 
             function filterMatches() {
                 const all = getSwapRequests();
+                const currentUser = (localStorage.getItem('currentUserName') || '').toLowerCase();
                 const q = (searchInput && searchInput.value || '').toLowerCase();
                 const dept = (filterDepartment && filterDepartment.value) || '';
                 const loc = (filterLocation && filterLocation.value) || '';
@@ -847,6 +848,8 @@ footer {
                 const availability = (filterAvailability && filterAvailability.value) || '';
 
                 const filtered = all.filter(r => {
+                    // Exclude requests created by the current user
+                    if (currentUser && String((r.requester || '')).toLowerCase() === currentUser) return false;
                     if (q) {
                         const inText = (r.requester||'').toLowerCase().includes(q) || (r.position||'').toLowerCase().includes(q) || (r.department||'').toLowerCase().includes(q) || (r.location||'').toLowerCase().includes(q);
                         if (!inText) return false;
