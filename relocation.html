@@ -1171,20 +1171,33 @@ footer {
                             successMessage.style.display = 'block';
                             errorMessage.style.display = 'none';
                             
-                            // Store request data in localStorage (for demo purposes)
-                            const formData = {
-                                requestId: requestId,
-                                currentDepartment: document.getElementById('currentDepartment').value,
-                                requestedDepartment: document.getElementById('requestedDepartment').value,
-                                requestedLocation: document.getElementById('requestedLocation').value,
-                                submissionDate: new Date().toLocaleDateString(),
-                                status: 'pending'
+                            // Build unified application object and store using shared helper
+                            const req = {
+                                id: requestId,
+                                requester: localStorage.getItem('currentUserName') || 'Anonymous User',
+                                department: document.getElementById('currentDepartment').value || '',
+                                position: document.getElementById('currentPosition') ? document.getElementById('currentPosition').value : '',
+                                location: document.getElementById('currentLocation') ? document.getElementById('currentLocation').value : '',
+                                requestedLocation: document.getElementById('requestedLocation') ? document.getElementById('requestedLocation').value : '',
+                                date: document.getElementById('preferredStartDate') ? document.getElementById('preferredStartDate').value : '',
+                                reason: (document.querySelector('input[name="relocationReason"]:checked') || {}).value || document.getElementById('otherReason') && document.getElementById('otherReason').value || '',
+                                submissionDate: new Date().toLocaleString(),
+                                status: 'pending',
+                                type: 'relocation'
                             };
-                            
-                            // Get existing requests or create new array
-                            const existingRequests = JSON.parse(localStorage.getItem('relocationRequests') || '[]');
-                            existingRequests.unshift(formData);
-                            localStorage.setItem('relocationRequests', JSON.stringify(existingRequests));
+
+                            if (typeof addApplication === 'function') {
+                                addApplication(req);
+                            } else {
+                                const existingRequests = JSON.parse(localStorage.getItem('relocationRequests') || '[]');
+                                existingRequests.unshift(req);
+                                localStorage.setItem('relocationRequests', JSON.stringify(existingRequests));
+                                // also maintain compatibility with applications key
+                                const apps = JSON.parse(localStorage.getItem('applications') || '[]');
+                                apps.unshift(req);
+                                localStorage.setItem('applications', JSON.stringify(apps));
+                                window.dispatchEvent(new Event('applicationsUpdated'));
+                            }
                             
                             // Redirect to homescreen to show recent applications after 4 seconds
                             setTimeout(function() {

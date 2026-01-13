@@ -966,25 +966,31 @@ Sincerely,
                                 successMessage.style.display = 'block';
                                 errorMessage.style.display = 'none';
                                 
-                                // Store request data in localStorage (for demo purposes)
-                                const formData = {
-                                    requestId: requestId,
+                                // Build unified application object and store using shared helper
+                                const req = {
                                     id: requestId,
-                                    employeeName: document.getElementById('employeeName').value,
-                                    employeeId: document.getElementById('employeeId').value,
-                                    department: document.getElementById('department').value,
-                                    position: document.getElementById('position').value,
-                                    lastWorkingDay: document.getElementById('lastWorkingDay').value,
-                                    reason: document.querySelector('input[name="resignationReason"]:checked').value,
+                                    requester: document.getElementById('employeeName').value || localStorage.getItem('currentUserName') || 'Anonymous User',
+                                    employeeId: document.getElementById('employeeId').value || '',
+                                    department: document.getElementById('department').value || '',
+                                    position: document.getElementById('position').value || '',
+                                    lastWorkingDay: document.getElementById('lastWorkingDay').value || '',
+                                    reason: (document.querySelector('input[name="resignationReason"]:checked') || {}).value || '',
                                     submissionDate: new Date().toLocaleDateString(),
                                     status: 'pending',
                                     type: 'resignation'
                                 };
-                                
-                                // Get existing requests or create new array
-                                const existingRequests = JSON.parse(localStorage.getItem('resignationRequests') || '[]');
-                                existingRequests.unshift(formData);
-                                localStorage.setItem('resignationRequests', JSON.stringify(existingRequests));
+
+                                if (typeof addApplication === 'function') {
+                                    addApplication(req);
+                                } else {
+                                    const existingRequests = JSON.parse(localStorage.getItem('resignationRequests') || '[]');
+                                    existingRequests.unshift(req);
+                                    localStorage.setItem('resignationRequests', JSON.stringify(existingRequests));
+                                    const apps = JSON.parse(localStorage.getItem('applications') || '[]');
+                                    apps.unshift(req);
+                                    localStorage.setItem('applications', JSON.stringify(apps));
+                                    window.dispatchEvent(new Event('applicationsUpdated'));
+                                }
                                 
                                 // Redirect to homescreen to show recent applications after 4 seconds
                                 setTimeout(function() {

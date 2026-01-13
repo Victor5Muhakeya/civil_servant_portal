@@ -469,11 +469,20 @@ footer {
                         status: 'pending'
                     };
 
-                    // Save to localStorage under 'swapRequests' for homescreen
+                    // Save using unified applications storage so admin sees it
                     try {
-                        const existing = JSON.parse(localStorage.getItem('swapRequests') || '[]');
-                        existing.unshift(req);
-                        localStorage.setItem('swapRequests', JSON.stringify(existing));
+                        req.type = 'swap';
+                        if (typeof addApplication === 'function') {
+                            addApplication(req);
+                        } else {
+                            const existing = JSON.parse(localStorage.getItem('swapRequests') || '[]');
+                            existing.unshift(req);
+                            localStorage.setItem('swapRequests', JSON.stringify(existing));
+                            const apps = JSON.parse(localStorage.getItem('applications') || '[]');
+                            apps.unshift(req);
+                            localStorage.setItem('applications', JSON.stringify(apps));
+                            window.dispatchEvent(new Event('applicationsUpdated'));
+                        }
 
                         if (successMessage) successMessage.style.display = 'block';
 
