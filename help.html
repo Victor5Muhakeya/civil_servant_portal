@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Civil Servant Portal</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Civil Servant Specific Styles -->
+    <style>
+        :root {
+            --primary-blue: #0A5C8A;
+            --secondary-teal: #20B2AA;
+            --light-blue: #E6F2FF;
+            --dark-gray: #333333;
+            --light-gray: #F5F7FA;
+        }
+        
+        .bg-primary-blue {
+            background-color: var(--primary-blue) !important;
+        }
+        
+        .bg-light-blue {
+            background-color: var(--light-blue) !important;
+        }
+        
+        .text-primary-blue {
+            color: var(--primary-blue) !important;
+        }
+        
+        .text-teal {
+            color: var(--secondary-teal) !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+        
+        .btn-primary:hover {
+            background-color: #084970;
+            border-color: #084970;
+        }
+        
+        .feature-icon-cs {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(10, 92, 138, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+        
+        .process-step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .process-step .step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- TOP BAR NAVIGATION -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary-blue py-2">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="bi bi-building me-2"></i>Civil Servant Portal
+            </a>
+            
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <!--<i class="bi bi-house me-1"></i>Home
+                        </a>
+                    
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="signup.html">
+                            <i class="bi bi-person-plus me-1"></i>Sign Up
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="help.html">
+                            <i class="bi bi-question-circle me-1"></i>Help
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">
+                            <i class="bi bi-telephone me-1"></i>Contact
+                        </a>
+                    -->
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- HELP CENTER HEADER -->
+    <section class="py-5 bg-light-blue">
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold mb-3 text-primary-blue">Civil Servant Help Center</h1>
+            <p class="lead mb-4">Get assistance with station swaps, relocations, resignations, and other civil service processes</p>
+            
+            <!-- Quick Action Cards -->
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon-cs mb-3">
+                                <i class="bi bi-arrow-left-right text-primary-blue" style="font-size: 1.8rem;"></i>
+                            </div>
+                            <h5>Station Swaps</h5>
+                            <p class="small">How to request and manage station swaps with other civil servants</p>
+                            <a href="#swap-section" class="btn btn-outline-primary btn-sm">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon-cs mb-3">
+                                <i class="bi bi-geo-alt text-primary-blue" style="font-size: 1.8rem;"></i>
+                            </div>
+                            <h5>Relocation</h5>
+                            <p class="small">Process for requesting transfers to different stations or districts</p>
+                            <a href="#relocation-section" class="btn btn-outline-primary btn-sm">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon-cs mb-3">
+                                <i class="bi bi-door-open text-primary-blue" style="font-size: 1.8rem;"></i>
+                            </div>
+                            <h5>Resignation</h5>
+                            <p class="small">Procedure for voluntary resignation from civil service</p>
+                            <a href="#resignation-section" class="btn btn-outline-primary btn-sm">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN HELP CONTENT -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Navigation -->
+                <div class="col-lg-3 mb-4">
+                    <div class="card shadow-sm border-0 sticky-top" style="top: 100px;">
+                        <div class="card-header bg-primary-blue text-white">
+                            <h5 class="mb-0"><i class="bi bi-list-columns me-2"></i>Help Topics</h5>
+                        </div>
+                        <div class="list-group list-group-flush">
+                            <a href="#getting-started" class="list-group-item list-group-item-action">
+                                <i class="bi bi-rocket-takeoff me-2"></i>Getting Started
+                            </a>
+                            <a href="#swap-section" class="list-group-item list-group-item-action">
+                                <i class="bi bi-arrow-left-right me-2"></i>Station Swaps
+                            </a>
+                            <a href="#relocation-section" class="list-group-item list-group-item-action">
+                                <i class="bi bi-geo-alt me-2"></i>Relocation/Transfers
+                            </a>
+                            <a href="#resignation-section" class="list-group-item list-group-item-action">
+                                <i class="bi bi-door-open me-2"></i>Resignation
+                            </a>
+                            <a href="#documents" class="list-group-item list-group-item-action">
+                                <i class="bi bi-files me-2"></i>Required Documents
+                            </a>
+                            <a href="#faq" class="list-group-item list-group-item-action">
+                                <i class="bi bi-question-circle me-2"></i>FAQ
+                            </a>
+                        </div>
+                        
+                        <!-- Emergency Contact -->
+                        <div class="card-footer bg-light">
+                            <h6 class="mb-2">Urgent Assistance?</h6>
+                            <a href="contact.html" class="btn btn-primary btn-sm w-100 mb-2">
+                                <i class="bi bi-telephone-outbound me-1"></i>Emergency Contact
+                            </a>
+                            <p class="small text-muted mb-0">
+                                <i class="bi bi-clock me-1"></i>HR Hotline: +265 997 631 984
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <!-- Getting Started -->
+                    <div id="getting-started" class="mb-5">
+                        <h2 class="mb-4 border-bottom pb-2">
+                            <i class="bi bi-rocket-takeoff text-primary-blue me-2"></i>Getting Started
+                        </h2>
+                        
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <h5>Account Registration</h5>
+                            <p>All civil servants must register with their official government email and employee ID. You'll need:</p>
+                            <ul>
+                                <li>Valid Employee ID Number</li>
+                                <li>Government email address</li>
+                                <li>National ID or Passport</li>
+                                <li>Current station assignment letter</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <h5>Profile Verification</h5>
+                            <p>After registration, your profile will be verified by HR within 3-5 working days. You'll receive an email confirmation once verified.</p>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <h5>Accessing Services</h5>
+                            <p>Once verified, you can access all services: swap requests, relocation applications, resignation processing, and more.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Station Swaps Section -->
+                    <div id="swap-section" class="mb-5">
+                        <h2 class="mb-4 border-bottom pb-2">
+                            <i class="bi bi-arrow-left-right text-primary-blue me-2"></i>Station Swaps
+                        </h2>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Note:</strong> Station swaps require mutual agreement between both civil servants and departmental approval.
+                        </div>
+                        
+                        <h5 class="mt-4">How to Request a Swap:</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Step</th>
+                                        <th>Action</th>
+                                        <th>Timeline</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Find a swap partner using the "Find Swap Partner" feature</td>
+                                        <td>Ongoing</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Send swap request to selected partner</td>
+                                        <td>Instant</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Partner accepts the request</td>
+                                        <td>Within 14 days</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Submit required documents</td>
+                                        <td>7 days after acceptance</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Departmental approval</td>
+                                        <td>15-30 working days</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Implementation of swap</td>
+                                        <td>Next posting cycle</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="alert alert-warning mt-3">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <strong>Important:</strong> Swaps are only allowed within the same job grade and department.
+                        </div>
+                    </div>
+                    
+                    <!-- Relocation Section -->
+                    <div id="relocation-section" class="mb-5">
+                        <h2 class="mb-4 border-bottom pb-2">
+                            <i class="bi bi-geo-alt text-primary-blue me-2"></i>Relocation & Transfers
+                        </h2>
+                        
+                        <p>Relocation requests can be made for:</p>
+                        <ul>
+                            <li>Medical reasons (with supporting documents)</li>
+                            <li>Family reunification</li>
+                            <li>Career development opportunities</li>
+                            <li>Security concerns</li>
+                        </ul>
+                        
+                        <h5 class="mt-4">Required Documents:</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6><i class="bi bi-file-earmark-medical text-teal me-2"></i>Medical Relocation</h6>
+                                        <ul class="small">
+                                            <li>Medical report from government hospital</li>
+                                            <li>Doctor's recommendation letter</li>
+                                            <li>Completed Form HR/REL/01</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h6><i class="bi bi-people text-teal me-2"></i>Family Relocation</h6>
+                                        <ul class="small">
+                                            <li>Marriage certificate (if applicable)</li>
+                                            <li>Spouse's employment details</li>
+                                            <li>Children's school information</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Resignation Section -->
+                    <div id="resignation-section" class="mb-5">
+                        <h2 class="mb-4 border-bottom pb-2">
+                            <i class="bi bi-door-open text-primary-blue me-2"></i>Resignation Process
+                        </h2>
+                        
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-octagon me-2"></i>
+                            <strong>Warning:</strong> Resignation is irreversible. Ensure you have alternative employment before proceeding.
+                        </div>
+                        
+                        <h5 class="mt-4">Resignation Procedure:</h5>
+                        <ol>
+                            <li>Submit resignation letter through the portal</li>
+                            <li>Serve 3-month notice period (or as per contract)</li>
+                            <li>Clear with all departments (finance, assets, etc.)</li>
+                            <li>Exit interview with HR</li>
+                            <li>Final settlement payment</li>
+                            <li>Receive service certificate</li>
+                        </ol>
+                        
+                        <h5 class="mt-4">Notice Period Requirements:</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Years of Service</th>
+                                        <th>Notice Period</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Less than 5 years</td>
+                                        <td>1 month</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5-10 years</td>
+                                        <td>2 months</td>
+                                    </tr>
+                                    <tr>
+                                        <td>More than 10 years</td>
+                                        <td>3 months</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Section -->
+                    <div id="faq" class="mb-5">
+                        <h2 class="mb-4 border-bottom pb-2">
+                            <i class="bi bi-question-circle text-primary-blue me-2"></i>Frequently Asked Questions
+                        </h2>
+                        
+                        <div class="accordion" id="faqAccordion">
+                            <!-- FAQ 1 -->
+                            <div class="accordion-item">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        Can I cancel a swap request after it's been accepted?
+                                    </button>
+                                </h3>
+                                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <p>Swap requests can be cancelled within <strong>24 hours</strong> of acceptance without penalty. After 24 hours, you must submit a formal cancellation request to HR, which may affect your future swap eligibility.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ 2 -->
+                            <div class="accordion-item">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        How long does relocation approval take?
+                                    </button>
+                                </h3>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <p>Standard processing time is <strong>30-45 working days</strong>. Medical emergencies are fast-tracked to 7-14 days with proper documentation.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ 3 -->
+                            <div class="accordion-item">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        What happens to my pension if I resign?
+                                    </button>
+                                </h3>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <p>Your pension contributions are preserved. You can either:
+                                        <ul>
+                                            <li>Transfer to new employer's scheme</li>
+                                            <li>Leave in the government scheme</li>
+                                            <li>Withdraw (subject to tax regulations)</li>
+                                        </ul>
+                                        Contact the Pensions Department for specific advice.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- FAQ 4 -->
+                            <div class="accordion-item">
+                                <h3 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                        Can I apply for swap and relocation simultaneously?
+                                    </button>
+                                </h3>
+                                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        <p>No. You can only have one active application at a time. If you apply for relocation, any pending swap requests will be automatically cancelled.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="card bg-light border-0">
+                        <div class="card-body">
+                            <h5><i class="bi bi-telephone text-primary-blue me-2"></i>Need More Help?</h5>
+                            <p>Contact the Civil Service HR Helpdesk:</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li><i class="bi bi-telephone me-2"></i>General Inquiries: +265 997 631 984</li>
+                                        <li><i class="bi bi-envelope me-2"></i>Email: bed-com-29-21@unima.ac.mw</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul class="list-unstyled">
+                                        <li><i class="bi bi-clock me-2"></i>Working Hours: 7:30 AM - 5:00 PM</li>
+                                        <li><i class="bi bi-calendar me-2"></i>Monday - Friday</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="bi bi-building me-2"></i>Civil Servant Portal</h5>
+                    <p class="mt-3">Streamlining civil service processes for better governance and employee satisfaction.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-styled">
+                        <li><a href="index.html" class="text-white-50">Home</a></li>
+                        <li><a href="login.html" class="text-white-50">Login</a></li>
+                        <li><a href="signup.html" class="text-white-50">Sign Up</a></li>
+                        <li><a href="help.html" class="text-white-50">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-envelope me-2"></i>bed-com-29-21@unima.ac.mw</li>
+                        <li><i class="bi bi-phone me-2"></i>+265 997 631 984</li>
+                        <li><i class="bi bi-geo-alt me-2"></i>Zomba, Malawi</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="bg-white-50 my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Malawi Civil Service Commission. All rights reserved.</p>
+                <p class="small text-white-50 mt-2">Official Government Portal</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS for Help Page -->
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Highlight current section in sidebar
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('div[id]');
+            const navLinks = document.querySelectorAll('.list-group-item');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if(scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
