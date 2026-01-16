@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil Servant - My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            background-color: #34495e;
+        }
+
+        .nav-menu a.active {
+            background-color: #3498db;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Profile screen specific styles */
+        .profile-page {
+            min-height: calc(100vh - 200px);
+            padding: 2rem 1rem;
+            background-color: #f5f7fa;
+        }
+        
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .profile-title h1 {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .profile-title p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .action-btn.edit {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .action-btn.edit:hover {
+            background-color: #2980b9;
+        }
+        
+        .action-btn.back {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .action-btn.back:hover {
+            background-color: #e9ecef;
+            border-color: #bbb;
+        }
+        
+        .action-btn.view {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .action-btn.view:hover {
+            background-color: #27ae60;
+        }
+        
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 992px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Profile Sidebar */
+        .profile-sidebar {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .profile-card {
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 3.5rem;
+            font-weight: bold;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .avatar-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .change-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #2c3e50;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid white;
+        }
+        
+        .profile-name {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-position {
+            color: #3498db;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-id {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-status {
+            display: inline-block;
+            padding: 6px 15px;
+            background-color: #e8f6f3;
+            color: #27ae60;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        /* Profile Sections */
+        .profile-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .profile-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background-color: #f8f9fa;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-header h2 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-header h2 i {
+            color: #3498db;
+        }
+        
+        .section-content {
+            padding: 2rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-value {
+            color: #555;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
+        }
+        
+        /* Form styles for edit mode */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-group label .required {
+            color: #e74c3c;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 1em;
+            padding-right: 40px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .form-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .save-btn {
+            padding: 12px 25px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .save-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .cancel-btn {
+            padding: 12px 25px;
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #e9ecef;
+            border-color: #bbb;
+        }
+        
+        /* Alert messages */
+        .alert {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+        
+        .alert-success {
+            background-color: #e6fffa;
+            color: #234e52;
+            border-left: 4px solid #38b2ac;
+            display: block;
+        }
+        
+        .alert-error {
+            background-color: #fde8e8;
+            color: #c53030;
+            border-left: 4px solid #c53030;
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .footer-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #3498db;
+        }
+        
+        .copyright {
+            margin-top: 1.5rem;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #2c3e50;
+                padding: 1rem;
+                z-index: 1000;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+            
+            .profile-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .save-btn, .cancel-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        footer {
+            padding: 1.5rem 0;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-logo i {
+            font-size: 1.7rem;
+            margin-right: 8px;
+        }
+
+        .footer-content p {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+
+        .footer-links {
+            margin-bottom: 1rem;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.9rem;
+        }
+
+        .copyright {
+            font-size: 0.8rem;
+            color: #95a5a6;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-landmark"></i>
+                <span>Civil Servant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="homescreen.html">Home</a></li>
+                <li><a href="profilescreen.html" class="active">Profile</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="profile-page">
+        <div class="profile-container">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-title">
+                    <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+                    <p>View and manage your personal information and employment details</p>
+                </div>
+                
+                <div class="profile-actions">
+                    <button class="action-btn back" id="backButton">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </button>
+                    <button class="action-btn edit" id="editProfileButton">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Alert Messages -->
+            <div id="alert-message" class="alert" style="display: none;">
+                <!-- Message will be inserted here -->
+            </div>
+            
+            <div class="profile-content">
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar">
+                    <div class="profile-card">
+                        <div class="profile-avatar" id="profileAvatar">
+                            <div class="avatar-placeholder" id="avatarInitials">SM</div>
+                            <div class="change-avatar" id="changeAvatarButton">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        
+                        <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                        
+                        <h2 class="profile-name" id="profileName">Shalon Muhakeya</h2>
+                        <div class="profile-position" id="profilePosition">Senior Education Officer</div>
+                        <div class="profile-id" id="profileId">Employee ID: CS-2020-0456</div>
+                        
+                        <div class="profile-status">Active Employee</div>
+                        
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-number" id="yearsOfService">3</div>
+                                <div class="stat-label">Years of Service</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="totalApplications">5</div>
+                                <div class="stat-label">Applications</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="successRate">80%</div>
+                                <div class="stat-label">Success Rate</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem;">
+                            <h3 style="margin-bottom: 1rem; color: #2c3e50;">Contact Information</h3>
+                            <div style="text-align: left;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                                    <i class="fas fa-envelope" style="color: #3498db;"></i>
+                                    <span id="profileEmail">victormax@education.gov</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 1rem;">
+                                    <i class="fas fa-phone" style="color: #3498db;"></i>
+                                    <span id="profilePhone">+267 997 631 984</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-map-marker-alt" style="color: #3498db;"></i>
+                                    <span id="profileLocation">Zomba urban</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Main Content -->
+                <div class="profile-sections">
+                    <!-- Personal Information -->
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-user"></i> Personal Information</h2>
+                            <button class="action-btn edit edit-section-btn" data-section="personal">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                        <div class="section-content">
+                            <div class="info-grid" id="personalInfoView">
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-user"></i> Full Name
+                                    </div>
+                                    <div class="info-value" id="fullNameValue">Victor Muhakeya</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-birthday-cake"></i> Date of Birth
+                                    </div>
+                                    <div class="info-value" id="dobValue">July 19, 1999</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-venus-mars"></i> Gender
+                                    </div>
+                                    <div class="info-value" id="genderValue">Male</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-passport"></i> National ID
+                                    </div>
+                                    <div class="info-value" id="nationalIdValue">ID-1234567890</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-map-marked-alt"></i> Residential Address
+                                    </div>
+                                    <div class="info-value" id="addressValue">Box 280 University of Malawi</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-heart"></i> Marital Status
+                                    </div>
+                                    <div class="info-value" id="maritalStatusValue">Married</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Edit Form (Hidden by default) -->
+                            <form id="personalInfoForm" style="display: none;">
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="firstName">First Name <span class="required">*</span></label>
+                                            <input type="text" id="firstName" class="form-control" value=" " required>
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="middleName">Middle Name</label>
+                                            <input type="text" id="middleName" class="form-control" value=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="lastName">Last Name <span class="required">*</span></label>
+                                            <input type="text" id="lastName" class="form-control" value=" " required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="dob">Date of Birth <span class="required">*</span></label>
+                                            <input type="date" id="dob" class="form-control" value="2000-07-19" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="gender">Gender</label>
+                                            <select id="gender" class="form-control">
+                                                <option value="male" selected>Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="prefer-not-to-say">Prefer not to say</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="nationalId">National ID</label>
+                                            <input type="text" id="nationalId" class="form-control" value="ID-1234567890">
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="maritalStatus">Marital Status</label>
+                                            <select id="maritalStatus" class="form-control">
+                                                <option value="single">Single</option>
+                                                <option value="married" selected>Married</option>
+                                                <option value="divorced">Divorced</option>
+                                                <option value="widowed">Widowed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="address">Residential Address</label>
+                                    <textarea id="address" class="form-control" rows="3">University of Malawi Box 280, Zomba</textarea>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="save-btn" id="savePersonalInfo">
+                                        <i class="fas fa-save"></i> Save Changes
+                                    </button>
+                                    <button type="button" class="cancel-btn" id="cancelPersonalInfo">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Employment Information -->
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-briefcase"></i> Employment Information</h2>
+                            <button class="action-btn edit edit-section-btn" data-section="employment">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                        <div class="section-content">
+                            <div class="info-grid" id="employmentInfoView">
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-building"></i> Department
+                                    </div>
+                                    <div class="info-value" id="departmentValue">Education</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-user-tie"></i> Position
+                                    </div>
+                                    <div class="info-value" id="positionValue">Senior Education Officer</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-layer-group"></i> Grade Level
+                                    </div>
+                                    <div class="info-value" id="gradeValue">Level 6</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-calendar-alt"></i> Date of Joining
+                                    </div>
+                                    <div class="info-value" id="joiningDateValue">March 15, 2020</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-map-marker-alt"></i> Work Location
+                                    </div>
+                                    <div class="info-value" id="workLocationValue">Southern Office, Zomba City</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-id-badge"></i> Employee Type
+                                    </div>
+                                    <div class="info-value" id="employeeTypeValue">Permanent Full-time</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Edit Form (Hidden by default) -->
+                            <form id="employmentInfoForm" style="display: none;">
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="department">Department <span class="required">*</span></label>
+                                            <select id="department" class="form-control" required>
+                                                <option value="">Select Department</option>
+                                                <option value="education" selected>Education</option>
+                                                
+                                                
+                                                
+                                                <option value="health">Health</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="position">Position <span class="required">*</span></label>
+                                            <input type="text" id="position" class="form-control" value="Senior Education Officer" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="gradeLevel">Grade Level</label>
+                                            <select id="gradeLevel" class="form-control">
+                                                <option value="">Select Grade Level</option>
+                                                <option value="1">Level 1</option>
+                                                <option value="2">Level 2</option>
+                                                <option value="3">Level 3</option>
+                                                <option value="4">Level 4</option>
+                                                <option value="5">Level 5</option>
+                                                <option value="6">Level 6</option>
+                                                <option value="7">Level 7</option>
+                                                <option value="8">Level 8</option>
+                                                <option value="9">Level 9</option>
+                                                <option value="10">Level 10</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="joiningDate">Date of Joining <span class="required">*</span></label>
+                                            <input type="date" id="joiningDate" class="form-control" value="2024-03-15" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="workLocation">Work Location <span class="required">*</span></label>
+                                            <input type="text" id="workLocation" class="form-control" value="southern Office, zomba City" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="employeeType">Employee Type</label>
+                                            <select id="employeeType" class="form-control">
+                                                <option value="permanent" selected>Permanent Full-time</option>
+                                                <option value="contract">Contract</option>
+                                                <option value="temporary">Temporary</option>
+                                                <option value="part-time">Part-time</option>
+                                                <option value="intern">Intern</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="save-btn" id="saveEmploymentInfo">
+                                        <i class="fas fa-save"></i> Save Changes
+                                    </button>
+                                    <button type="button" class="cancel-btn" id="cancelEmploymentInfo">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact & Emergency Information -->
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <h2><i class="fas fa-address-book"></i> Contact & Emergency Information</h2>
+                            <button class="action-btn edit edit-section-btn" data-section="contact">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                        <div class="section-content">
+                            <div class="info-grid" id="contactInfoView">
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-envelope"></i> Official Email
+                                    </div>
+                                    <div class="info-value" id="officialEmailValue">victormax@gmail.com</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-phone"></i> Work Phone
+                                    </div>
+                                    <div class="info-value" id="workPhoneValue">+265 997 631 984</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-mobile-alt"></i> Personal Phone
+                                    </div>
+                                    <div class="info-value" id="personalPhoneValue">+265 887 186 171</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-user-friends"></i> Emergency Contact
+                                    </div>
+                                    <div class="info-value" id="emergencyContactValue">Shalon Kasokoya (Daughter)</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-phone-alt"></i> Emergency Phone
+                                    </div>
+                                    <div class="info-value" id="emergencyPhoneValue">+265 997 631 984</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-notes-medical"></i> Medical Information
+                                    </div>
+                                    <div class="info-value" id="medicalInfoValue">No known allergies or conditions</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Edit Form (Hidden by default) -->
+                            <form id="contactInfoForm" style="display: none;">
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="officialEmail">Official Email <span class="required">*</span></label>
+                                            <input type="email" id="officialEmail" class="form-control" value="muhakeyahvictor@gmail.com" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="workPhone">Work Phone</label>
+                                            <input type="tel" id="workPhone" class="form-control" value="+265 997 631 984">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="personalPhone">Personal Phone</label>
+                                            <input type="tel" id="personalPhone" class="form-control" value="+265 997 631 984">
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="emergencyContact">Emergency Contact Name</label>
+                                            <input type="text" id="emergencyContact" class="form-control" value="Shalon Kasokoya">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="emergencyRelationship">Relationship</label>
+                                            <input type="text" id="emergencyRelationship" class="form-control" value="Daughter">
+                                        </div>
+                                    </div>
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="emergencyPhone">Emergency Phone</label>
+                                            <input type="tel" id="emergencyPhone" class="form-control" value="+265 997 631 984">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="medicalInfo">Medical Information</label>
+                                    <textarea id="medicalInfo" class="form-control" rows="3">No known allergies or conditions</textarea>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="button" class="save-btn" id="saveContactInfo">
+                                        <i class="fas fa-save"></i> Save Changes
+                                    </button>
+                                    <button type="button" class="cancel-btn" id="cancelContactInfo">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-landmark"></i>
+                <span>Civil Servant</span>
+            </div>
+            <p>Streamlining administrative processes for government employees since 2025</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <p class="copyright">&copy; <span class="current-year">2026</span> Civil Servant Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Profile screen JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize user data if not exists
+            initializeUserData();
+            
+            // Load user data
+            loadUserProfile();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initialize hamburger menu
+            initHamburgerMenu();
+            
+            function initializeUserData() {
+                // Check if user data exists in localStorage
+                if (!localStorage.getItem('userData')) {
+                    // Create default user data
+                    const defaultUserData = {
+                        firstName: 'Victor',
+                        middleName: ' ',
+                        lastName: 'Muhakeya',
+                        email: 'victormax@gmail.com ',
+                        position: ' ',
+                        employeeId: ' ',
+                        department: ' ',
+                        gradeLevel: ' ',
+                        workLocation: ' ',
+                        phone: ' ',
+                        address: ' ',
+                        dob: '',
+                        gender: ' ',
+                        nationalId: ' ',
+                        maritalStatus: ' ',
+                        joiningDate: ' ',
+                        employeeType: ' ',
+                        personalPhone: ' ',
+                        emergencyContact: ' ',
+                        emergencyRelationship: ' ',
+                        emergencyPhone: ' ',
+                        medicalInfo: 'No known allergies or conditions'
+                    };
+                    
+                    localStorage.setItem('userData', JSON.stringify(defaultUserData));
+                }
+                
+                // Set login status if not exists
+                if (!localStorage.getItem('isLoggedIn')) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                }
+            }
+            
+            function loadUserProfile() {
+                // Get user data from localStorage
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                
+                // Update profile information
+                updateProfileInfo(userData);
+                
+                // Update current year in footer
+                const yearElement = document.querySelector('.current-year');
+                if (yearElement) {
+                    yearElement.textContent = new Date().getFullYear();
+                }
+            }
+            
+            function updateProfileInfo(userData) {
+                // Extract user data
+                const firstName = userData.firstName || ' ';
+                const lastName = userData.lastName || ' ';
+                const middleName = userData.middleName || ' ';
+                const email = userData.email || ' ';
+                const position = userData.position || ' ';
+                const employeeId = userData.employeeId || ' ';
+                const department = userData.department || ' ';
+                const gradeLevel = userData.gradeLevel || ' ';
+                const workLocation = userData.workLocation || ' ';
+                const phone = userData.phone || ' ';
+                const address = userData.address || ' ';
+                const dob = userData.dob || ' ';
+                const gender = userData.gender || ' ';
+                const nationalId = userData.nationalId || ' ';
+                const maritalStatus = userData.maritalStatus || ' ';
+                const joiningDate = userData.joiningDate || ' ';
+                const employeeType = userData.employeeType || ' ';
+                const personalPhone = userData.personalPhone || ' ';
+                const emergencyContact = userData.emergencyContact || ' ';
+                const emergencyRelationship = userData.emergencyRelationship || ' ';
+                const emergencyPhone = userData.emergencyPhone || ' ';
+                const medicalInfo = userData.medicalInfo || 'No known allergies or conditions';
+                
+                // Update avatar initials
+                const avatarInitials = document.getElementById('avatarInitials');
+                if (avatarInitials) {
+                    avatarInitials.textContent = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+                }
+                
+                // Update profile name
+                const profileName = document.getElementById('profileName');
+                if (profileName) {
+                    profileName.textContent = `${firstName} ${middleName ? middleName + ' ' : ''}${lastName}`;
+                }
+                
+                // Update full name in personal info
+                const fullNameValue = document.getElementById('fullNameValue');
+                if (fullNameValue) {
+                    fullNameValue.textContent = `${firstName} ${middleName ? middleName + ' ' : ''}${lastName}`;
+                }
+                
+                // Update other profile elements
+                document.getElementById('profilePosition').textContent = position;
+                document.getElementById('profileId').textContent = `Employee ID: ${employeeId}`;
+                document.getElementById('profileEmail').textContent = email;
+                document.getElementById('profilePhone').textContent = phone;
+                document.getElementById('profileLocation').textContent = workLocation;
+                
+                // Update personal information
+                document.getElementById('dobValue').textContent = formatDate(dob);
+                document.getElementById('genderValue').textContent = formatGender(gender);
+                document.getElementById('nationalIdValue').textContent = nationalId;
+                document.getElementById('addressValue').textContent = address;
+                document.getElementById('maritalStatusValue').textContent = formatMaritalStatus(maritalStatus);
+                
+                // Update employment information
+                document.getElementById('departmentValue').textContent = department;
+                document.getElementById('positionValue').textContent = position;
+                document.getElementById('gradeValue').textContent = `Level ${gradeLevel}`;
+                document.getElementById('joiningDateValue').textContent = formatDate(joiningDate);
+                document.getElementById('workLocationValue').textContent = workLocation;
+                document.getElementById('employeeTypeValue').textContent = formatEmployeeType(employeeType);
+                
+                // Update contact information
+                document.getElementById('officialEmailValue').textContent = email;
+                document.getElementById('workPhoneValue').textContent = phone;
+                document.getElementById('personalPhoneValue').textContent = personalPhone;
+                document.getElementById('emergencyContactValue').textContent = `${emergencyContact} (${emergencyRelationship})`;
+                document.getElementById('emergencyPhoneValue').textContent = emergencyPhone;
+                document.getElementById('medicalInfoValue').textContent = medicalInfo;
+                
+                // Update form fields with current data
+                document.getElementById('firstName').value = firstName;
+                document.getElementById('middleName').value = middleName;
+                document.getElementById('lastName').value = lastName;
+                document.getElementById('dob').value = dob;
+                document.getElementById('gender').value = gender;
+                document.getElementById('nationalId').value = nationalId;
+                document.getElementById('maritalStatus').value = maritalStatus;
+                document.getElementById('address').value = address;
+                document.getElementById('department').value = department.toLowerCase();
+                document.getElementById('position').value = position;
+                document.getElementById('gradeLevel').value = gradeLevel;
+                document.getElementById('joiningDate').value = joiningDate;
+                document.getElementById('workLocation').value = workLocation;
+                document.getElementById('employeeType').value = employeeType;
+                document.getElementById('officialEmail').value = email;
+                document.getElementById('workPhone').value = phone;
+                document.getElementById('personalPhone').value = personalPhone;
+                document.getElementById('emergencyContact').value = emergencyContact;
+                document.getElementById('emergencyRelationship').value = emergencyRelationship;
+                document.getElementById('emergencyPhone').value = emergencyPhone;
+                document.getElementById('medicalInfo').value = medicalInfo;
+                
+                // Calculate years of service
+                const yearsOfService = calculateYearsOfService(joiningDate);
+                document.getElementById('yearsOfService').textContent = yearsOfService;
+            }
+            
+            function setupEventListeners() {
+                // Back button
+                const backButton = document.getElementById('backButton');
+                if (backButton) {
+                    backButton.addEventListener('click', function() {
+                        window.location.href = 'homescreen.html';
+                    });
+                }
+                
+                // Main Edit Profile button - opens all sections for editing
+                const editProfileButton = document.getElementById('editProfileButton');
+                if (editProfileButton) {
+                    editProfileButton.addEventListener('click', function() {
+                        // Switch all sections to edit mode
+                        switchAllToEditMode();
+                        
+                        // Show message
+                        showAlert('All sections are now in edit mode. Make your changes and save each section.', 'success');
+                    });
+                }
+                
+                // Section edit buttons
+                document.querySelectorAll('.edit-section-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const section = this.getAttribute('data-section');
+                        toggleEditMode(section);
+                    });
+                });
+                
+                // Save buttons
+                document.getElementById('savePersonalInfo').addEventListener('click', savePersonalInfo);
+                document.getElementById('saveEmploymentInfo').addEventListener('click', saveEmploymentInfo);
+                document.getElementById('saveContactInfo').addEventListener('click', saveContactInfo);
+                
+                // Cancel buttons
+                document.getElementById('cancelPersonalInfo').addEventListener('click', function() {
+                    toggleEditMode('personal', false);
+                });
+                
+                document.getElementById('cancelEmploymentInfo').addEventListener('click', function() {
+                    toggleEditMode('employment', false);
+                });
+                
+                document.getElementById('cancelContactInfo').addEventListener('click', function() {
+                    toggleEditMode('contact', false);
+                });
+                
+                // Avatar upload
+                const changeAvatarButton = document.getElementById('changeAvatarButton');
+                const avatarUpload = document.getElementById('avatarUpload');
+                
+                if (changeAvatarButton && avatarUpload) {
+                    changeAvatarButton.addEventListener('click', function() {
+                        avatarUpload.click();
+                    });
+                    
+                    avatarUpload.addEventListener('change', function() {
+                        if (this.files && this.files[0]) {
+                            const reader = new FileReader();
+                            
+                            reader.onload = function(e) {
+                                const avatarElement = document.getElementById('profileAvatar');
+                                const avatarInitials = document.getElementById('avatarInitials');
+                                
+                                // Remove existing image if any
+                                const existingImg = avatarElement.querySelector('img');
+                                if (existingImg) {
+                                    existingImg.remove();
+                                }
+                                
+                                // Create image element
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.alt = 'Profile Avatar';
+                                
+                                // Replace initials with image
+                                avatarInitials.style.display = 'none';
+                                avatarElement.insertBefore(img, avatarInitials);
+                                
+                                // Save to localStorage
+                                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                                userData.avatar = e.target.result;
+                                localStorage.setItem('userData', JSON.stringify(userData));
+                                
+                                // Show success message
+                                showAlert('Profile picture updated successfully!', 'success');
+                            };
+                            
+                            reader.readAsDataURL(this.files[0]);
+                        }
+                    });
+                }
+            }
+            
+            function initHamburgerMenu() {
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (hamburger) {
+                    hamburger.addEventListener('click', function() {
+                        hamburger.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                    });
+                }
+                
+                // Close menu when clicking on a link
+                document.querySelectorAll('.nav-menu a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+            }
+            
+            function switchAllToEditMode() {
+                // Switch all sections to edit mode
+                toggleEditMode('personal', true);
+                toggleEditMode('employment', true);
+                toggleEditMode('contact', true);
+            }
+            
+            function toggleEditMode(section, forceEdit = true) {
+                const viewElement = document.getElementById(`${section}InfoView`);
+                const formElement = document.getElementById(`${section}InfoForm`);
+                const editButton = document.querySelector(`.edit-section-btn[data-section="${section}"]`);
+                
+                // Check current state
+                const isCurrentlyEditing = formElement.style.display === 'block';
+                
+                // Determine new state
+                const shouldEdit = forceEdit !== undefined ? forceEdit : !isCurrentlyEditing;
+                
+                if (shouldEdit) {
+                    // Switch to EDIT mode
+                    viewElement.style.display = 'none';
+                    formElement.style.display = 'block';
+                    if (editButton) {
+                        editButton.innerHTML = '<i class="fas fa-eye"></i> View';
+                        editButton.classList.remove('edit');
+                        editButton.classList.add('view');
+                    }
+                } else {
+                    // Switch to VIEW mode
+                    viewElement.style.display = 'grid';
+                    formElement.style.display = 'none';
+                    if (editButton) {
+                        editButton.innerHTML = '<i class="fas fa-edit"></i> Edit';
+                        editButton.classList.remove('view');
+                        editButton.classList.add('edit');
+                    }
+                }
+            }
+            
+            function savePersonalInfo() {
+                // Get form values
+                const firstName = document.getElementById('firstName').value.trim();
+                const middleName = document.getElementById('middleName').value.trim();
+                const lastName = document.getElementById('lastName').value.trim();
+                const dob = document.getElementById('dob').value;
+                const gender = document.getElementById('gender').value;
+                const nationalId = document.getElementById('nationalId').value.trim();
+                const maritalStatus = document.getElementById('maritalStatus').value;
+                const address = document.getElementById('address').value.trim();
+                
+                // Basic validation
+                if (!firstName || !lastName || !dob) {
+                    showAlert('Please fill in all required fields (First Name, Last Name, Date of Birth).', 'error');
+                    return;
+                }
+                
+                // Update view mode display
+                document.getElementById('fullNameValue').textContent = `${firstName} ${middleName ? middleName + ' ' : ''}${lastName}`;
+                document.getElementById('dobValue').textContent = formatDate(dob);
+                document.getElementById('genderValue').textContent = formatGender(gender);
+                document.getElementById('nationalIdValue').textContent = nationalId || 'Not specified';
+                document.getElementById('maritalStatusValue').textContent = formatMaritalStatus(maritalStatus);
+                document.getElementById('addressValue').textContent = address || 'Not specified';
+                
+                // Update profile sidebar
+                document.getElementById('profileName').textContent = `${firstName} ${middleName ? middleName + ' ' : ''}${lastName}`;
+                document.getElementById('avatarInitials').textContent = (firstName.charAt(0) + lastName.charAt(0)).toUpperCase();
+                
+                // Update localStorage
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                userData.firstName = firstName;
+                userData.middleName = middleName;
+                userData.lastName = lastName;
+                userData.dob = dob;
+                userData.gender = gender;
+                userData.nationalId = nationalId;
+                userData.maritalStatus = maritalStatus;
+                userData.address = address;
+                localStorage.setItem('userData', JSON.stringify(userData));
+                
+                // Switch back to view mode
+                toggleEditMode('personal', false);
+                
+                // Show success message
+                showAlert('Personal information updated successfully!', 'success');
+            }
+            
+            function saveEmploymentInfo() {
+                // Get form values
+                const department = document.getElementById('department').value;
+                const position = document.getElementById('position').value.trim();
+                const gradeLevel = document.getElementById('gradeLevel').value;
+                const joiningDate = document.getElementById('joiningDate').value;
+                const workLocation = document.getElementById('workLocation').value.trim();
+                const employeeType = document.getElementById('employeeType').value;
+                
+                // Basic validation
+                if (!department || !position || !joiningDate || !workLocation) {
+                    showAlert('Please fill in all required fields (Department, Position, Joining Date, Work Location).', 'error');
+                    return;
+                }
+                
+                // Format department name
+                const departmentName = department.charAt(0).toUpperCase() + department.slice(1);
+                
+                // Update view mode display
+                document.getElementById('departmentValue').textContent = departmentName;
+                document.getElementById('positionValue').textContent = position;
+                document.getElementById('gradeValue').textContent = gradeLevel ? `Level ${gradeLevel}` : 'Not specified';
+                document.getElementById('joiningDateValue').textContent = formatDate(joiningDate);
+                document.getElementById('workLocationValue').textContent = workLocation;
+                document.getElementById('employeeTypeValue').textContent = formatEmployeeType(employeeType);
+                
+                // Update profile sidebar
+                document.getElementById('profilePosition').textContent = position;
+                document.getElementById('profileLocation').textContent = workLocation;
+                
+                // Update localStorage
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                userData.department = departmentName;
+                userData.position = position;
+                userData.gradeLevel = gradeLevel;
+                userData.joiningDate = joiningDate;
+                userData.workLocation = workLocation;
+                userData.employeeType = employeeType;
+                localStorage.setItem('userData', JSON.stringify(userData));
+                
+                // Update years of service
+                const yearsOfService = calculateYearsOfService(joiningDate);
+                document.getElementById('yearsOfService').textContent = yearsOfService;
+                
+                // Switch back to view mode
+                toggleEditMode('employment', false);
+                
+                // Show success message
+                showAlert('Employment information updated successfully!', 'success');
+            }
+            
+            function saveContactInfo() {
+                // Get form values
+                const officialEmail = document.getElementById('officialEmail').value.trim();
+                const workPhone = document.getElementById('workPhone').value.trim();
+                const personalPhone = document.getElementById('personalPhone').value.trim();
+                const emergencyContact = document.getElementById('emergencyContact').value.trim();
+                const emergencyRelationship = document.getElementById('emergencyRelationship').value.trim();
+                const emergencyPhone = document.getElementById('emergencyPhone').value.trim();
+                const medicalInfo = document.getElementById('medicalInfo').value.trim();
+                
+                // Basic validation
+                if (!officialEmail) {
+                    showAlert('Official Email is required.', 'error');
+                    return;
+                }
+                
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(officialEmail)) {
+                    showAlert('Please enter a valid email address.', 'error');
+                    return;
+                }
+                
+                // Update view mode display
+                document.getElementById('officialEmailValue').textContent = officialEmail;
+                document.getElementById('workPhoneValue').textContent = workPhone || 'Not specified';
+                document.getElementById('personalPhoneValue').textContent = personalPhone || 'Not specified';
+                document.getElementById('emergencyContactValue').textContent = emergencyContact ? `${emergencyContact} (${emergencyRelationship})` : 'Not specified';
+                document.getElementById('emergencyPhoneValue').textContent = emergencyPhone || 'Not specified';
+                document.getElementById('medicalInfoValue').textContent = medicalInfo || 'Not specified';
+                
+                // Update profile sidebar
+                document.getElementById('profileEmail').textContent = officialEmail;
+                document.getElementById('profilePhone').textContent = workPhone || 'Not specified';
+                
+                // Update localStorage
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                userData.email = officialEmail;
+                userData.phone = workPhone;
+                userData.personalPhone = personalPhone;
+                userData.emergencyContact = emergencyContact;
+                userData.emergencyRelationship = emergencyRelationship;
+                userData.emergencyPhone = emergencyPhone;
+                userData.medicalInfo = medicalInfo;
+                localStorage.setItem('userData', JSON.stringify(userData));
+                
+                // Switch back to view mode
+                toggleEditMode('contact', false);
+                
+                // Show success message
+                showAlert('Contact information updated successfully!', 'success');
+            }
+            
+            function formatDate(dateString) {
+                if (!dateString) return 'Not specified';
+                
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return dateString;
+                
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+            
+            function formatGender(gender) {
+                const genderMap = {
+                    'male': 'Male',
+                    'female': 'Female',
+                    'other': 'Other',
+                    'prefer-not-to-say': 'Prefer not to say'
+                };
+                return genderMap[gender] || gender;
+            }
+            
+            function formatMaritalStatus(status) {
+                const statusMap = {
+                    'single': 'Single',
+                    'married': 'Married',
+                    'divorced': 'Divorced',
+                    'widowed': 'Widowed'
+                };
+                return statusMap[status] || status;
+            }
+            
+            function formatEmployeeType(type) {
+                const typeMap = {
+                    'permanent': 'Permanent Full-time',
+                    'contract': 'Contract',
+                    'temporary': 'Temporary',
+                    'part-time': 'Part-time',
+                    'intern': 'Intern'
+                };
+                return typeMap[type] || type;
+            }
+            
+            function calculateYearsOfService(joiningDate) {
+                if (!joiningDate) return 0;
+                
+                const joinDate = new Date(joiningDate);
+                if (isNaN(joinDate.getTime())) return 0;
+                
+                const today = new Date();
+                let years = today.getFullYear() - joinDate.getFullYear();
+                const monthDiff = today.getMonth() - joinDate.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < joinDate.getDate())) {
+                    years--;
+                }
+                
+                return Math.max(years, 0);
+            }
+            
+            function showAlert(message, type) {
+                const alertElement = document.getElementById('alert-message');
+                
+                if (alertElement) {
+                    alertElement.textContent = message;
+                    alertElement.className = `alert alert-${type}`;
+                    alertElement.style.display = 'block';
+                    
+                    // Scroll to top to show the alert
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // Hide alert after 5 seconds
+                    setTimeout(() => {
+                        alertElement.style.display = 'none';
+                    }, 5000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
