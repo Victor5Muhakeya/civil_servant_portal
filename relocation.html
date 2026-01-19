@@ -790,7 +790,28 @@ footer {
                         </div>
                         
                         <!-- Additional Information -->
+                        <div class="form-group">
+                            <label for="additionalInfo">Additional Information</label>
+                            <textarea id="additionalInfo" class="form-control" placeholder="Any additional information that might support your request (e.g., special skills, qualifications, etc.)"></textarea>
+                        </div>
                         
+                        <!-- Supporting Documents -->
+                        <div class="reason-box">
+                            <h3><i class="fas fa-paperclip"></i> Supporting Documents</h3>
+                            <p>Upload any supporting documents for your relocation request (medical certificates, recommendation letters, etc.).</p>
+                            
+                            <div class="upload-area" id="uploadArea">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p><strong>Click to upload</strong> or drag and drop</p>
+                                <p class="file-types">PDF, DOC, DOCX, JPG, PNG up to 10MB</p>
+                            </div>
+                            
+                            <input type="file" id="documentUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple style="display: none;">
+                            
+                            <div class="preview-container" id="previewContainer">
+                                <!-- Files will be dynamically added here -->
+                            </div>
+                        </div>
                         
                         <!-- Terms and Submission -->
                         <div class="form-group">
