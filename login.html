@@ -543,7 +543,27 @@ if (loginForm) {
             });
             
             // Forgot password link
+            const forgotPasswordLink = document.querySelector('.forgot-password');
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    alert('In a real application, this would open a password reset form or send a reset email.');
+                });
+            }
             
+            // Check if user is already logged in (demo)
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                const userEmail = localStorage.getItem('userEmail');
+                if (userEmail) {
+                    document.getElementById('email').value = userEmail;
+                }
+                
+                const rememberMe = localStorage.getItem('rememberMe');
+                if (rememberMe === 'true') {
+                    document.getElementById('remember').checked = true;
+                }
+            }
             
             // Update current year in footer
             const yearElement = document.querySelector('.current-year');
