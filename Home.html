@@ -681,7 +681,14 @@
             });
         });
 
-        
+        // Update copyright year
+        document.addEventListener('DOMContentLoaded', function() {
+            const year = new Date().getFullYear();
+            const copyrightElements = document.querySelectorAll('.copyright p');
+            copyrightElements.forEach(el => {
+                el.innerHTML = el.innerHTML.replace('2025', year);
+            });
+        });
     </script>
 </body>
 </html>
